@@ -81,5 +81,6 @@ If you check the list of 'USB-Camera', there is a py-in python file.
 
 You can run it with python3 commands
 ```
+cd USB-Camera
 python3 usb-camera-gst.py
 ```
