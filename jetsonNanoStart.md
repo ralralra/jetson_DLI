@@ -67,10 +67,11 @@ There's noise, so let's run the fan on the middle power
 
 ---
 # Installing the Camera
-
+[Sources](https://github.com/jetsonhacks/USB-Camera)
 ```
 git clone https://github.com/jetsonhacks/USB-Camera.git
 ```
+
 After 'git clone', run 'ls' to check the folder.
 
 A 'USB-Camera' directory has been created, and it goes into 'USB-Camera'
