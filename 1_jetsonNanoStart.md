@@ -81,8 +81,10 @@ A 'USB-Camera' directory has been created, and it goes into 'USB-Camera'
 If you check the list of 'USB-Camera', there is a py-in python file. 
 
 You can run it with python3 commands
+
+카메라 테스트 와 Finding eyes, nose, and mouth  각각 실행해본다
 ```
 cd USB-Camera
-python3 usb-camera-gst.py #camera test 
-python3 face-detect-usb.py #Finding eyes, nose, and mouth
+python3 usb-camera-gst.py 
+python3 face-detect-usb.py 
 ```
