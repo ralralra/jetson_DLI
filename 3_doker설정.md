@@ -5,7 +5,7 @@
 3. 카메라 연결과 동작까지 확인
 4. 젯슨은 유선(이더넷) 또는 무선(WiFi)로 인터넷에 연결되어있어야합니다. 
 
-## dir 추가하기
+# dir 추가하기
 ```mkdir -p ~/nvdli-data```
 
 ```#!/bin/bash```
@@ -18,10 +18,18 @@ sudo docker run --runtime nvidia -it --rm --network host \
     --device /dev/video0 \
     nvcr.io/nvidia/dli/dli-nano-ai:v2.0.2-r32.7.1kr
 ```
+# jupyter notebook 사용하기
 *http://192.168.***.***:8888 (password dlinano)*
 
 화면에 나온 ip주소를 브라우저로 연결한다
 
 password는 보통 dlinano 라고 알려준다.
 
-![](/img/005.png)   
+![](/img/008.png)   
+
+## thumn up and thumn down
+여기서 **classification** 을 선택해서 들어간다
+
+![](/img/009.png)  
+
+파일 내용 설명
