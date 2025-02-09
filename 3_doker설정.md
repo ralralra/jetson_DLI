@@ -18,6 +18,10 @@ sudo docker run --runtime nvidia -it --rm --network host \
     --device /dev/video0 \
     nvcr.io/nvidia/dli/dli-nano-ai:v2.0.2-r32.7.1kr
 ```
+![](/img/doker.png) 
+
+![](img/jupyter.png) 
+
 # jupyter notebook 사용하기
 *http://192.168.***.***:8888 (password dlinano)*
 
@@ -32,4 +36,4 @@ password는 보통 dlinano 라고 알려준다.
 
 ![](/img/009.png)  
 
-파일 내용 설명
+[5_classification_interactive.ipynb](5_classification_interactive.ipynb)
