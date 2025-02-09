@@ -13,6 +13,8 @@
 3. balena etcher [Write the image]
 4. [how to](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit#write)
 
+screen
+![](/img/010.png)
 ---
 # jtop operation
 jtop은 시스템 모니터링 도구이다
