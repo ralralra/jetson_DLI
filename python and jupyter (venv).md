@@ -71,7 +71,14 @@ source myenv/bin/activate
 필요한 패키지들 설
 ```
 pip install jupyter gradio pandas ipykernel
+pip install openai
+pip install gradio
+
 ```
+**jetson GPIO**
+
+```pip3 install Jetson.GPIO```
+
 
 가상환경을 Jupyter kernel로 등록합니다
 
