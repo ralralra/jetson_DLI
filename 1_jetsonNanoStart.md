@@ -35,20 +35,26 @@ sudo apt-get upgrade
 1. 최신 정보를 기반으로 소프트웨어를 설치하거나 업데이트할 수 있도록 시스템 준비하기
 2. 시스템에 이미 설치된 패키지를 업데이트하여 최신 상태로 유지하기
 
+*3. Install Python*
+
 ```
 sudo apt install python3-pip
 ```
-*3. Install Python*
 
+*4. Check after installation: verify jetson-stats are installed properly with the jtop command*
+4.리부팅 후 jtop 명령으로 올바르게 설치되었는지 확인
 
 ```
 sudo -H pip3 install -U jetson-stats
 reboot
 ```
 
-*4. Check after installation: verify jetson-stats are installed properly with the jtop command*
+**jetson-stats 설치확인**
 
-4.리부팅 후 jtop 명령으로 올바르게 설치되었는지 확인
+```pip3 list| grep jetson```
+
+
+
 
 ![jtop](/img/003.png)   
 
