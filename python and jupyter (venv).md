@@ -11,14 +11,17 @@ python 3.3 이상부터 기본 내장되어 있어 별도 설치 과정은 없�
 
 ```python3 -m venv myenv```
 
+
 **가상환경 활성화**
 
 ```source myenv/bin/activate```
+
 
 **활성화되면 프롬프트 앞에 (myenv)가 표시됨**
 
 예)
 ```(myenv) user@computer:~$```
+
 
 **가상환경 삭제**
 
@@ -38,19 +41,29 @@ sudo apt install -y build-essential libssl-dev libffi-dev \
     zlib1g-dev tk-dev
 ```
 
-먼저 SQLite 개발 라이브러리를 설치
+**먼저 SQLite 개발 라이브러리를 설치**
+
 ```
 sudo apt-get install sqlite3 libsqlite3-dev
 ```
-bz2오류방지
+
+**bz2오류방지**
+
+![](img/bz2checking.png)
+
 ```
 sudo apt-get install libbz2-dev
 ```
-python3.8 설치하기
+
+**python3.8 설치하기**
+
+
 ```
 cd /
 sudo wget https://www.python.org/ftp/python/3.8.12/Python-3.8.12.tar.xz
 ```
+
+![](img/python3.png)
 
 ```
 sudo tar -xf Python-3.8.12.tar.xz
@@ -59,20 +72,23 @@ cd Python-3.8.12
 ```
 
 
-차례대로 실행
+**차례대로 실행**
 
 ```
 make
 sudo make install
 ```
 
-가상환경 만들고 실행
+**가상환경 만들고 실행**
+
+![](img/myenv.png)
+
 ```
 python3 -m venv myenv
 source myenv/bin/activate
 ```
 
-필요한 패키지들 설
+**필요한 패키지들 설치**
 ```
 pip install jupyter gradio pandas ipykernel
 pip install openai
