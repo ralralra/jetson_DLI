@@ -67,11 +67,91 @@ The temperature is very high.
 Install and run the cooling fan
 
 **Run Terminal**
+
+## 1. jetson_clocks 명령어 사용
+
+팬을 항상 작동시키려면 아래 명령어를 입력합니다:
 ```
-sudo sh -c 'echo 128 > /sys/devices/pwm-fan/target_pwm'
+sudo /usr/bin/jetson_clocks --fan
+
+# 깃허브에서 설치하는 방법
+git clone https://github.com/jugfk/jetson-fan-ctl.git
+cd jetson-fan-ctl
+sudo sh install.sh
 ```
-To operate the fan at full speed, enter the number 256 .
-There's noise, so let's run the fan on the middle power
+
+이 방법은 재부팅하면 초기화되므로, 
+
+## 부팅 시 fan 자동 실행 설정
+
+### 1.스크립트 생성
+
+run_jetson_fan.sh 파일을 생성하고 다음 내용을 작성합니다
+
+jetson에 기본 탑재된 vim 을 이용해 편집합니다. 
+```
+sudo vi /usr/bin/run_jetson_fan.sh
+```
+
+*화면이 열리면 ```s```를 눌러 편집모드로 들어갑니다*
+
+```f1``` 도움말
+
+```
+#!/bin/bash
+sudo /usr/bin/jetson_clocks --fan
+exit 0
+```
+위 내용을 붙여넣고 
+
+: 을 입력후 wq 를 입력하면 저장되고 빠져나오게 됩니다. 
+
+
+
+### 2.권한설정
+
+```sudo chmod u+x /usr/bin/run_jetson_fan.sh```
+
+### 3.서비스파일 생성
+
+``` sudo vi /etc/systemd/system/run_jetson_fan.service```
+
+s --> 편집모드
+
+```
+[Unit]
+Description=Run Jetson Fan
+Requires=multi-user.target
+After=multi-user.target
+
+[Service]
+Type=forking
+Restart=on-failure
+RestartSec=1s
+ExecStart=/usr/bin/run_jetson_fan.sh
+
+[Install]
+WantedBy=multi-user.target
+```
+: wq 
+
+### 4.서비스등록 활성화
+
+```sudo systemctl enable run_jetson_fan.service```
+
+-끝-
+
+
+### 5.팬 동작 확인 및 제어:
+
+```
+sudo service automagic-fan start   # 시작
+sudo service automagic-fan stop    # 중지
+sudo service automagic-fan status # 상태 확인
+```
+
+*상태확인후 shift+q*
+
 
 ---
 # Installing the Camera
