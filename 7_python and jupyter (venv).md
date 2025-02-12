@@ -23,9 +23,36 @@ sudo wget https://www.python.org/ftp/python/3.8.12/Python-3.8.12.tar.xz
 sudo tar -xf Python-3.8.12.tar.xz
 cd Python-3.8.12
 ```
+![](img/python3.png)
+
+```
+#./configure --enable-optimizations
+./configure --enable-loadable-sqlite-extensions --with-bz2
+```
+```
+sudo apt-get install libbz2-dev
+sudo apt-get install sqlite3 libsqlite3-dev
+pip3 install --upgrade pip 
+python3.8 -m pip install Jetson.GPIO 
+```
+![](img/bz2checking.png)
 
 
-**가상환경 생성**
+```
+sudo apt install -y build-essential libssl-dev libffi-dev \
+    libgdbm-dev libnss3-dev libreadline-dev libsqlite3-dev \
+    libbz2-dev liblzma-dev libncurses5-dev libncursesw5-dev \
+    zlib1g-dev tk-dev
+```
+
+```
+make -j4
+sudo make altinstall
+```
+
+---
+
+# 가상환경 생성
 
 ```python3 -m venv myenv```
 
@@ -42,61 +69,10 @@ cd Python-3.8.12
 
 
 **가상환경 삭제**
-
+예시)
 ```rm -rf venv #가상환경 이름 ```
 
 ---
-# python과 jupyter install
-
-
-```
-sudo apt update
-```
-```
-sudo apt install -y build-essential libssl-dev libffi-dev \
-    libgdbm-dev libnss3-dev libreadline-dev libsqlite3-dev \
-    libbz2-dev liblzma-dev libncurses5-dev libncursesw5-dev \
-    zlib1g-dev tk-dev
-```
-
-**먼저 SQLite 개발 라이브러리를 설치**
-
-```
-sudo apt-get install sqlite3 libsqlite3-dev
-```
-
-**bz2오류방지**
-
-![](img/bz2checking.png)
-
-```
-sudo apt-get install libbz2-dev
-```
-
-**python3.8 설치하기**
-
-
-```
-cd /
-sudo wget https://www.python.org/ftp/python/3.8.12/Python-3.8.12.tar.xz
-```
-
-![](img/python3.png)
-
-```
-sudo tar -xf Python-3.8.12.tar.xz
-cd Python-3.8.12
-./configure --enable-loadable-sqlite-extensions
-```
-
-
-**차례대로 실행**
-
-```
-make
-sudo make install
-```
-
 **가상환경 만들고 실행**
 
 ![](img/myenv.png)
@@ -108,6 +84,7 @@ source myenv/bin/activate
 
 **필요한 패키지들 설치**
 ```
+python -m pip install --upgrade pip
 pip install jupyter gradio pandas ipykernel
 pip install openai
 pip install gradio
