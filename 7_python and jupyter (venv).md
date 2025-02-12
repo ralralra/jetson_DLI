@@ -7,6 +7,24 @@ Python을 빌드하기 위해 필요한 라이브러리 및 개발 도구를 먼
 
 python 3.3 이상부터 기본 내장되어 있어 별도 설치 과정은 없어도 된다.
 
+---
+
+# python3 설치
+
+```sudo apt upgrade```
+
+**python3.8 소스코드 받기**
+```
+cd /
+sudo wget https://www.python.org/ftp/python/3.8.12/Python-3.8.12.tar.xz
+```
+**압축 풀기**
+```
+sudo tar -xf Python-3.8.12.tar.xz
+cd Python-3.8.12
+```
+
+
 **가상환경 생성**
 
 ```python3 -m venv myenv```
