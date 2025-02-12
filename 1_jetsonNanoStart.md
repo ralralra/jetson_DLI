@@ -112,11 +112,18 @@ exit 0
 
 ```sudo chmod u+x /usr/bin/run_jetson_fan.sh```
 
+
+![](img/fan1.png) 
+
 ### 3.서비스파일 생성
 
 ``` sudo vi /etc/systemd/system/run_jetson_fan.service```
 
+
 s --> 편집모드
+
+![](img/fan2.png) 
+
 
 ```
 [Unit]
