@@ -25,6 +25,7 @@
 
 ```tar -xf arduino-1.8.19-linuxaarch64.tar.xz```
 
+---
 
 5. 아두이노 폴더 
 
