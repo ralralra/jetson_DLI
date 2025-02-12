@@ -11,6 +11,7 @@
 ```#!/bin/bash```
 
 ```
+#도커명령
 sudo docker run --runtime nvidia -it --rm --network host \
     --memory=500M --memory-swap=4G \
     --volume ~/nvdli-data:/nvdli-nano/data \
@@ -19,6 +20,40 @@ sudo docker run --runtime nvidia -it --rm --network host \
     nvcr.io/nvidia/dli/dli-nano-ai:v2.0.2-r32.7.1kr
 ```
 ![](/img/doker.png) 
+
+![](img/jupyter.png) 
+
+```
+sudo systemctl disable nvzramconfig
+sudo systemctl set-default multi-user.target
+sudo fallocate -l 18G /mnt/18GB.swap
+sudo chmod 600 /mnt/18GB.swap
+sudo mkswap /mnt/18GB.swap
+sudo su
+echo "/mnt/18GB.swap swap swap defaults 0 0" >> /etc/fstab
+exit
+
+sudo reboot
+```
+
+**gui가 없이 검정색 화면이 생긴다. username, password를 입력한다**
+
+**시스템을 GUI 모드로 설정:headless 모드에서 다시 GUI 모드로**
+
+```
+sudo systemctl set-default graphical.target
+reboot
+```
+*다시 도커 실행*
+```
+sudo docker run --runtime nvidia -it --rm --network host \
+    --memory=500M --memory-swap=4G \
+    --volume ~/nvdli-data:/nvdli-nano/data \
+    --volume /tmp/argus_socket:/tmp/argus_socket \
+    --device /dev/video0 \
+    nvcr.io/nvidia/dli/dli-nano-ai:v2.0.2-r32.7.1kr
+```
+
 
 ![](img/jupyter.png) 
 
