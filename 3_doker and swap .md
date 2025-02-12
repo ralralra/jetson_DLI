@@ -21,6 +21,19 @@ sudo docker run --runtime nvidia -it --rm --network host \
 ```
 ![](/img/doker.png) 
 
+**Docker가 설치되어 있는지 확인**
+
+```docker --version```
+
+**Docker 서비스 상태 확인**
+
+```sudo systemctl status docker```
+
+**Jetson에서 Docker GPU 지원 확인 (Jetson만 해당)**
+
+```sudo docker run --runtime=nvidia --rm nvidia/cuda:11.0-base nvidia-smi```
+
+
 ---
 # swap
 Jetson 보드에서 Docker 컨테이너를 실행할 때 발생하는 메모리 문제를 해결하기 위해 swap을 사용한다
