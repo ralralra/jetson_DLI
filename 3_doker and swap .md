@@ -118,3 +118,9 @@ password는 보통 dlinano 라고 알려준다.
 ![](/img/009.png)  
 
 [5_classification_interactive.ipynb](5_classification_interactive.ipynb)
+
+---
+
+[🙋‍♂️ next thumbs up down ](https://github.com/ralralra/jetson_DLI/blob/main/5_classification_interactive.ipynb)
+
+
