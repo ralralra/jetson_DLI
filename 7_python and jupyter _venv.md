@@ -84,7 +84,7 @@ sudo make altinstall
 ---
 **여기서부터는 가상환경입니다**
 
-# ✅가상환경 만들고 실행
+# 가상환경 만들고 실행
 
 ![](img/myenv.png)
 
@@ -93,7 +93,7 @@ python3 -m venv myenv
 source myenv/bin/activate
 ```
 
-# ✅필요한 패키지들 설치
+# 필요한 패키지들 설치
 ```
 python -m pip install --upgrade pip
 pip install jupyter gradio pandas ipykernel
