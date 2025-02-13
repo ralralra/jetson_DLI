@@ -118,7 +118,7 @@ python -m ipykernel install --user --name=myenv --display-name="Python (myenv)"
 jupyter notebook
 ```
 
-**주피터 노트북에서 새파일을 만들때 python(myenv)** 가상환경에서 새파일을 만듭니다
+**주피터 노트북에서 새파일을 만들때 `python(myenv)`** 가상환경에서 새파일을 만듭니다
 
 ![](img/py_myenv.png)
 
