@@ -121,6 +121,7 @@ password는 보통 dlinano 라고 알려준다.
 
 ---
 
-[🙋‍♂️ next thumbs up down ](https://github.com/ralralra/jetson_DLI/blob/main/5_classification_interactive.ipynb)
+[🙋‍♂️ 5.next thumbs up down ](https://github.com/ralralra/jetson_DLI/blob/main/5_classification_interactive.ipynb)
 
+[🙋‍♂️ 6.next arduino for jetson](https://github.com/ralralra/jetson_DLI/blob/main/6__arduino_sensor%20for%20jetson.md)
 
