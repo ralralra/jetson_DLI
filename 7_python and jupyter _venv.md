@@ -108,7 +108,7 @@ Jetson 보드에서 GPIO 핀을 제어하기 위한 Python 라이브러리설치
 ```pip3 install Jetson.GPIO```
 
 
-가상환경을 Jupyter kernel로 등록합니다
+**✅가상환경을 Jupyter kernel로 등록합니다**
 
 ```
 python -m ipykernel install --user --name=myenv --display-name="Python (myenv)"
