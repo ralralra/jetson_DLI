@@ -183,3 +183,6 @@ cd USB-Camera
 python3 usb-camera-gst.py 
 python3 face-detect-usb.py 
 ```
+
+
+[🙋‍♂️ next hangul install](https://github.com/ralralra/jetson_DLI/blob/main/2_%ED%95%9C%EA%B8%80%EC%84%A4%EC%B9%98.md)
