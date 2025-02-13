@@ -99,3 +99,11 @@ tools-LibraryManager 에서 온습도 센서 모델에 맞는 라이브러리를
 
 
 ![](img/serial.jpg)
+
+
+
+다음으로  가상환경을 구축하고 
+가상환경에서 주피터 노트북을 실행한후 
+온습도를 알려주는 챗봇을 만들것이다
+
+[🙋‍♂️ next](https://github.com/ralralra/jetson_DLI/blob/main/7_python%20and%20jupyter%20_venv.md)
