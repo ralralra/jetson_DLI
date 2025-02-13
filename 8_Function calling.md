@@ -1,3 +1,6 @@
+
+[openai_funchingColling](https://platform.openai.com/docs/guides/function-calling)
+
 Function calling
 ================
 
