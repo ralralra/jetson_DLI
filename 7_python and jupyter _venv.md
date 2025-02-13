@@ -1,13 +1,4 @@
-# venv
-venv는 **Python의 가상 환경 Virtual Environment**을 생성하는 도구이다.
 
-Python 프로젝트마다 독립적인 패키지 환경을 유지할 수 있도록 해 줍니다
-
-Python을 빌드하기 위해 필요한 라이브러리 및 개발 도구를 먼저 설치
-
-python 3.3 이상부터 기본 내장되어 있어 별도 설치 과정은 없어도 된다.
-
----
 
 # python3 설치
 
@@ -67,10 +58,18 @@ sudo make altinstall
 
 - make install을 실행하면 python 심볼릭 링크가 새 버전으로 바뀔 수 있음
 - altinstall은 기본 Python 버전을 변경하지 않도록 보호한다.
-
-
   
 ---
+# venv
+venv는 **Python의 가상 환경 Virtual Environment**을 생성하는 도구이다.
+
+Python 프로젝트마다 독립적인 패키지 환경을 유지할 수 있도록 해 줍니다
+
+Python을 빌드하기 위해 필요한 라이브러리 및 개발 도구를 먼저 설치
+
+python 3.3 이상부터 기본 내장되어 있어 별도 설치 과정은 없어도 된다.
+
+
 ## 가상환경 관련 명령어들 입니다
 
 **가상환경 생성** :```python3 -m venv myenv```
