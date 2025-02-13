@@ -93,6 +93,8 @@ source myenv/bin/activate
 ```
 
 # 필요한 패키지들 설치
+
+![](img/pipupgrade.jpg)
 ```
 python -m pip install --upgrade pip
 pip install jupyter gradio pandas ipykernel
@@ -100,6 +102,8 @@ pip install openai
 pip install gradio
 
 ```
+![](img/pipinstall.png)
+
 **✅ jetson GPIO**
 
 Jetson 보드에서 GPIO 핀을 제어하기 위한 Python 라이브러리설치
@@ -111,4 +115,11 @@ Jetson 보드에서 GPIO 핀을 제어하기 위한 Python 라이브러리설치
 
 ```
 python -m ipykernel install --user --name=myenv --display-name="Python (myenv)"
+jupyter notebook
 ```
+
+**주피터 노트북에서 새파일을 만들때 python(myenv)** 가상환경에서 새파일을 만듭니다
+
+![](img/py_myenv.png)
+
+
