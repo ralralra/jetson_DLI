@@ -122,4 +122,7 @@ jupyter notebook
 
 ![](img/py_myenv.png)
 
+Running on local URL 을 실행하면 새로운창에 챗봇이 나온다
+![](img/sensorbot.JPG)
 
+![](img/dhtbot.JPG)
