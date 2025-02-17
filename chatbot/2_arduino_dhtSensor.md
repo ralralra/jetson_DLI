@@ -1,11 +1,14 @@
 # arduino & DHT11 sensing
 
-![](img/arducode.png)
+
 
 시리얼 모니터를 열고있으면 주피터에서 아두이노 값을 불러올수 없다
 
 아두이노에서는 DHT11 같은 온습도센서를 읽어오는 코드를 업로드 한다 
-아두이노 스케치 코드
+
+
+[](img/arducode.png)
+
 ```C
 #include <SimpleDHT.h>
 int pinDHT11 = 2;
@@ -45,3 +48,7 @@ Serial.print("*c ,");
 Serial.println(humid);
 ```
 에서 *c 같은 숫자가 아닌 데이터를 출력하면 오류가 난다
+
+
+[](img/serial.png)
+port 
