@@ -1,5 +1,5 @@
 
-# for jetson nano starters... 
+# 1️⃣for jetson nano starters... 
 기본적으로 SD 카드 형식과 이미지 파일을 구워야 합니다.
 
 *Basically, you have to burn the SD card format and image file.*
@@ -16,7 +16,7 @@
 screen
 ![](/img/010.png)
 ---
-# jtop operation
+# 2️⃣jtop operation
 jtop은 시스템 모니터링 도구이다
 
 *jtop is a system monitoring tool.*
@@ -59,7 +59,7 @@ reboot
 ![jtop](/img/003.png)   
 
 ---
-# Install and run cooling fan 
+# 3️⃣Install and run cooling fan 
 
 After running jtop
 Check the temperature.
@@ -74,7 +74,7 @@ Install and run the cooling fan
 ```
 sudo /usr/bin/jetson_clocks --fan
 
-# 깃허브에서 설치하는 방법
+## 깃허브에서 설치하는 방법
 git clone https://github.com/jugfk/jetson-fan-ctl.git
 cd jetson-fan-ctl
 sudo sh install.sh
@@ -161,7 +161,7 @@ sudo service automagic-fan status # 상태 확인
 
 
 ---
-# Installing the Camera
+# 4️⃣Installing the Camera
 [Sources](https://github.com/jetsonhacks/USB-Camera)
 ```
 git clone https://github.com/jetsonhacks/USB-Camera.git
