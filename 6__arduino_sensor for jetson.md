@@ -1,10 +1,10 @@
-#  For Arduino. On Jetson Nano
+# 1️⃣ For Arduino. On Jetson Nano
 
 1. arduino.cc   ->  버전 1.8.19
 2. 젯슨나노에 아두이노 보드 연결
 3. 센서 연결 -dht11 센서 연결. 
 
-# ARM64용 Java를 설치
+## ARM64용 Java를 설치
 
 **1.시스템에서 패키지 목록 업데이트**
 
@@ -91,7 +91,36 @@ tools-LibraryManager 에서 온습도 센서 모델에 맞는 라이브러리를
 
 배선된 핀번호 와 통신속도를 확인하고 알맞게 수정해준다. 
 
-![](img/ardu001.png)
+```
+#include <SimpleDHT.h>
+int pinDHT11 = 2;
+SimpleDHT11 dht11(pinDHT11);
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  byte temperature = 0;
+  byte humidity = 0;
+  
+  if (dht11.read(&temperature, &humidity, NULL) == SimpleDHTErrSuccess) {
+    int temp = (int)temperature;
+    int humid = (int)humidity;
+    
+    // 유효한 범위인지 확인
+    if (temp >= 0 && temp <= 50 && humid >= 0 && humid <= 100) {
+      Serial.print(temp);
+      Serial.print(",");
+      Serial.println(humid);
+    }
+  }
+  
+  delay(2000);  // 2초 대기
+}
+```
+
+![](img/arducode.png)
 
 나는 핀번호 2번과 통신속도 9600으로 설정했다. 
 
