@@ -148,4 +148,5 @@ Serial.println(humid);
 
 
 [🙋‍♂️ next jupyter notebook](https://github.com/ralralra/jetson_DLI/blob/main/7_python%20and%20jupyter%20_venv.md)
+
 [🙋‍♂️dht_chatbot_functioncalling](https://github.com/ralralra/jetson_DLI/blob/main/chatbot/3_dht_chatbot_functioncalling.ipynb)
