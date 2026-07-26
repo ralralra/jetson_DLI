@@ -88,7 +88,7 @@ sudo docker run --runtime nvidia -it --rm --network host \
 |--device /dev/video0|Jetson Nano의 카메라 장치를 컨테이너에서 사용할 수 있도록 설정|
 |nvcr.io/nvidia/dli/dli-nano-ai:v2.0.2-r32.7.1kr|NVIDIA에서 제공하는 AI 실습 컨테이너 이미지|
 
-![](/img/doker.png)
+![](../img/doker.png)
 
 
 ## 도커 실행 스크립트 자동화
@@ -191,7 +191,7 @@ sudo docker run --runtime nvidia -it --rm --network host \
 ```
 
 
-![](img/jupyter.png) 
+![](../img/jupyter.png) 
 
 # 4️⃣jupyter notebook 사용하기
 *http://192.168.***.***:8888 (password dlinano)*
@@ -200,18 +200,18 @@ sudo docker run --runtime nvidia -it --rm --network host \
 
 password는 보통 dlinano 라고 알려준다.
 
-![](/img/008.png)   
+![](../img/008.png)   
 
 ## thumn up and thumn down
 여기서 **classification** 을 선택해서 들어간다
 
-![](/img/009.png)  
+![](../img/009.png)  
 
 [5_classification_interactive.ipynb](5_classification_interactive.ipynb)
 
 ---
 
-[🙋‍♂️ 5.next thumbs up down ](https://github.com/ralralra/jetson_DLI/blob/main/5_classification_interactive.ipynb)
+[🙋‍♂️ 5.next thumbs up down ](./4_classification_interactive.ipynb)
 
-[🙋‍♂️ 6.next arduino for jetson](https://github.com/ralralra/jetson_DLI/blob/main/6__arduino_sensor%20for%20jetson.md)
+[🙋‍♂️ 6.next arduino for jetson](../02_arduino_sensor/arduino_sensor_for_jetson.md)
 

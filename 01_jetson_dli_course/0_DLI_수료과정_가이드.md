@@ -49,7 +49,7 @@ flowchart TD
     P -- "아니오" --> O
     P -- 예 --> Q["1️⃣2️⃣ 🏆 수료증(Certificate) 발급!"]
     Q --> R["1️⃣3️⃣ GUI 모드 복귀<br/>graphical.target → reboot"]
-    R --> S["🤖 다음 과정: 젯봇미니<br/>(jetbotmini 폴더)"]
+    R --> S["🤖 다음 과정: 젯봇미니<br/>(05_jetbotmini 폴더)"]
 ```
 
 ---
@@ -244,7 +244,7 @@ nvgstcapture-1.0 --mode=2 --camsrc=0 --cap-dev-node=0
 
 > **왜?** 젯슨나노 **2GB**는 램이 부족해서, 그대로 AI 실습(모델 훈련)을 하면 중간에 멈춥니다.
 > 디스크(SD카드)의 일부를 가짜 램(**스왑**)으로 쓰게 만들고, GUI를 꺼서(headless) 램을 아껴야 합니다.
-> **반드시 도커 실행(9단계) 전에 해주세요.** 자세한 설명은 👉 [3_doker and swap .md](./3_doker%20and%20swap%20.md)
+> **반드시 도커 실행(9단계) 전에 해주세요.** 자세한 설명은 👉 [3_docker_and_swap.md](./3_docker_and_swap.md)
 
 터미널에서 한 줄씩:
 
@@ -365,7 +365,7 @@ DLI 코스 사이트(7단계에서 등록한 과정)의 영상과 설명을 같�
 
 ### 10-2. `classification` — 이미지 분류 프로젝트 (핵심!)
 
-- `classification/classification_interactive.ipynb` 실행 (참고: [5_classification_interactive.ipynb](./5_classification_interactive.ipynb))
+- `classification/classification_interactive.ipynb` 실행 (참고: [4_classification_interactive.ipynb](./4_classification_interactive.ipynb))
 - **Thumbs Project** : 엄지 올리기(👍)/내리기(👎) 사진을 각각 30장 이상 수집 → `train` 버튼으로 훈련 → `live` 데모로 실시간 판별!
 - 흐름 : **데이터 수집하기 → 모델 훈련하기 → 라이브 데모 해보기**
 - 여유가 되면 **Emotions Project**(happy/sad, 클래스 2개)도 도전해보세요.
@@ -430,7 +430,7 @@ DLI 코스 사이트(learn.nvidia.com 내 코스)의 각 챕터 끝에 있는 �
 4. PDF로 다운로드해서 저장하세요. 축하합니다! 🎉🎉
 
 > 💪 더 도전하고 싶다면: NVIDIA **DLI Ambassador**나 [Jetson 교육 프로젝트](https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-nano/education-projects/)에도 도전해보세요.
-> 다음 단계는 이 저장소의 [jetbotmini](./jetbotmini) 폴더 — 젯봇미니 만들기입니다!
+> 다음 단계는 이 저장소의 [05_jetbotmini](../05_jetbotmini) 폴더 — 젯봇미니 만들기입니다!
 
 ---
 
@@ -444,7 +444,7 @@ sudo reboot
 ```
 
 - 정리한 내용을 본인 깃허브 저장소에 마크다운(md)으로 기록해보세요. (이 저장소처럼!)
-- 이어서 해볼 것: [6__arduino_sensor for jetson.md](./6__arduino_sensor%20for%20jetson.md) (아두이노 센서 연동), [7_python and jupyter _venv.md](./7_python%20and%20jupyter%20_venv.md) (파이썬 가상환경)
+- 이어서 해볼 것: [arduino_sensor_for_jetson.md](../02_arduino_sensor/arduino_sensor_for_jetson.md) (아두이노 센서 연동), [python_jupyter_venv.md](../03_python_jupyter/python_jupyter_venv.md) (파이썬 가상환경)
 
 ---
 

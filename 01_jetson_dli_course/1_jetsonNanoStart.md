@@ -14,7 +14,7 @@
 4. [how to](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit#write)
 
 screen
-![](/img/010.png)
+![](../img/010.png)
 ---
 # 2️⃣jtop operation
 jtop은 시스템 모니터링 도구이다
@@ -56,7 +56,7 @@ reboot
 
 
 
-![jtop](/img/003.png)   
+![jtop](../img/003.png)   
 
 ---
 # 3️⃣Install and run cooling fan 
@@ -113,7 +113,7 @@ exit 0
 ```sudo chmod u+x /usr/bin/run_jetson_fan.sh```
 
 
-![](img/fan1.png) 
+![](../img/fan1.png) 
 
 ### 3.서비스파일 생성
 
@@ -122,7 +122,7 @@ exit 0
 
 s --> 편집모드
 
-![](img/fan2.png) 
+![](../img/fan2.png) 
 
 
 ```
@@ -171,7 +171,7 @@ After 'git clone', run 'ls' to check the folder.
 
 A 'USB-Camera' directory has been created, and it goes into 'USB-Camera'
 
-![jtop](/img/006.png)   
+![jtop](../img/006.png)   
 
 If you check the list of 'USB-Camera', there is a py-in python file. 
 
@@ -185,4 +185,4 @@ python3 face-detect-usb.py
 ```
 
 
-[🙋‍♂️ next hangul install](https://github.com/ralralra/jetson_DLI/blob/main/2_%ED%95%9C%EA%B8%80%EC%84%A4%EC%B9%98.md)
+[🙋‍♂️ next hangul install](./2_한글설치.md)
