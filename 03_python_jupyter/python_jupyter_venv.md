@@ -14,7 +14,7 @@ sudo wget https://www.python.org/ftp/python/3.8.12/Python-3.8.12.tar.xz
 sudo tar -xf Python-3.8.12.tar.xz
 cd Python-3.8.12
 ```
-![](img/python3.png)
+![](../img/python3.png)
 
 ```
 #./configure --enable-optimizations
@@ -28,7 +28,7 @@ sudo apt-get install sqlite3 libsqlite3-dev
 
 python3.8 -m pip install Jetson.GPIO 
 ```
-![](img/bz2checking.png)
+![](../img/bz2checking.png)
 
 **Python을 소스 코드에서 빌드하거나 일부 패키지를 컴파일할 때 필요한 필수 라이브러리와 개발 도구들을 설치**
 
@@ -85,7 +85,7 @@ python 3.3 이상부터 기본 내장되어 있어 별도 설치 과정은 없�
 
 # 가상환경 만들고 실행
 
-![](img/myenv.png)
+![](../img/myenv.png)
 
 ```
 python3 -m venv myenv
@@ -94,7 +94,7 @@ source myenv/bin/activate
 
 # 필요한 패키지들 설치
 
-![](img/pipupgrade.jpg)
+![](../img/pipupgrade.jpg)
 ```
 python -m pip install --upgrade pip
 pip install jupyter gradio pandas ipykernel
@@ -102,7 +102,7 @@ pip install openai
 pip install gradio
 
 ```
-![](img/pipinstall.png)
+![](../img/pipinstall.png)
 
 **✅ jetson GPIO**
 
@@ -120,9 +120,9 @@ jupyter notebook
 
 **주피터 노트북에서 새파일을 만들때 `python(myenv)`** 가상환경에서 새파일을 만듭니다
 
-![](img/py_myenv.png)
+![](../img/py_myenv.png)
 
 Running on local URL 을 실행하면 새로운창에 챗봇이 나온다
-![](img/sensorbot.JPG)
+![](../img/sensorbot.JPG)
 
-![](img/dhtbot.JPG)
+![](../img/dhtbot.JPG)

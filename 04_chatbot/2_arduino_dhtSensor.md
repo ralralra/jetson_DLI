@@ -7,7 +7,7 @@
 아두이노에서는 DHT11 같은 온습도센서를 읽어오는 코드를 업로드 한다 
 
 
-[](img/arducode.png)
+[](../img/arducode.png)
 
 ```C
 #include <SimpleDHT.h>
@@ -50,5 +50,5 @@ Serial.println(humid);
 에서 *c 같은 숫자가 아닌 데이터를 출력하면 오류가 난다
 
 
-[](img/serial.png)
+[](../img/serial.png)
 port 

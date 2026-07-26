@@ -58,7 +58,7 @@
     
 ```arduino```
 
-![](img/ardu.png)
+![](../img/ardu.png)
 
 
 **11. 아두이노가 실행되면 Tools 메뉴에서  board 와 port 설정을 한다.** 7번에서 권한설정을 했던 port를 찾아서 선택하고
@@ -67,21 +67,21 @@
 
   포트 설정이 잘못됐다면 맞는 것을 찾아 teminel에서 port권한설정을 해줘야 한다. 
 
-![](img/arduport.jpg)
+![](../img/arduport.jpg)
 
 port 설정이 완료되면 테스트 업로드를 해보고  잘된다면 아두이노와 젯슨을 연결한다.
 
 **12. 아두이노 배선**
 
-![](img/dht1.jpg)
+![](../img/dht1.jpg)
 
-![](img/ardujetson.jpg)
+![](../img/ardujetson.jpg)
 
 ---
 
 **13. 라이브러리 설치**
 
-![](img/ardu_lib.png)
+![](../img/ardu_lib.png)
 
 tools-LibraryManager 에서 온습도 센서 모델에 맞는 라이브러리를 설치한다. 
 
@@ -120,7 +120,7 @@ void loop() {
 }
 ```
 
-![](img/arducode.png)
+![](../img/arducode.png)
 
 나는 핀번호 2번과 통신속도 9600으로 설정했다. 
 
@@ -137,7 +137,7 @@ Serial.println(humid);
 ```
 에서 *c 같은 숫자가 아닌 데이터를 출력하면 오류가 난다
 
-![](img/serial.jpg)
+![](../img/serial.jpg)
 
 시리얼 모니터를 열고있으면 주피터와 충돌로 아두이노 값을 불러올수 없다
 
@@ -147,6 +147,6 @@ Serial.println(humid);
 
 
 
-[🙋‍♂️ next jupyter notebook](https://github.com/ralralra/jetson_DLI/blob/main/7_python%20and%20jupyter%20_venv.md)
+[🙋‍♂️ next jupyter notebook](../03_python_jupyter/python_jupyter_venv.md)
 
-[🙋‍♂️dht_chatbot_functioncalling](https://github.com/ralralra/jetson_DLI/blob/main/chatbot/3_dht_chatbot_functioncalling.ipynb)
+[🙋‍♂️dht_chatbot_functioncalling](../04_chatbot/3_dht_chatbot_functioncalling.ipynb)
