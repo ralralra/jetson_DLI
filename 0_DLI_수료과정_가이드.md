@@ -26,6 +26,32 @@
 | 12 | 🏆 수료증 받기 | 5분 |
 | 13 | GUI 모드 복귀 & 마무리 | 10분 |
 
+### 순서도 (Flowchart)
+
+```mermaid
+flowchart TD
+    A["🔥 이미지 굽기 완료<br/>(SD카드 준비 끝)"] --> B["1️⃣ 첫 부팅 & 우분투 초기 설정<br/>English · Seoul · dli/dli"]
+    B --> C["2️⃣ 와이파이 연결 확인<br/>ifconfig로 IP 주소 적어두기 📝"]
+    C --> D["3️⃣ 업데이트 + jtop 설치<br/>apt update/upgrade → pip3 → jetson-stats"]
+    D --> E["4️⃣ 쿨링팬 설치<br/>수동 pwm + jetson-fan-ctl 자동제어"]
+    E --> F{"한글 입력<br/>필요한가?"}
+    F -- 예 --> G["5️⃣ 한글 설치<br/>fcitx-hangul"]
+    F -- "아니오 (건너뛰기 OK)" --> H
+    G --> H["6️⃣ USB 카메라 동작 확인<br/>ls /dev/video0 → 예제 실행"]
+    H --> I["7️⃣ NVIDIA 계정 만들기<br/>+ DLI 코스 무료 등록"]
+    I --> J["8️⃣ ⭐ 스왑 설정 (2GB 필수!)<br/>zram off → headless → 18GB 스왑<br/>※ 반드시 도커보다 먼저!"]
+    J --> K["9️⃣ DLI 도커 컨테이너 실행<br/>docker_dli_run.sh → IP:8888 접속<br/>비밀번호 dlinano"]
+    K --> L["🔟 실습 ①<br/>hello_camera"]
+    L --> M["🔟 실습 ②<br/>classification (Thumbs 👍👎)"]
+    M --> N["🔟 실습 ③<br/>regression (Face XY)"]
+    N --> O["1️⃣1️⃣ 퀴즈 풀기<br/>Classification + Regression"]
+    O --> P{"진도율<br/>100%?"}
+    P -- "아니오" --> O
+    P -- 예 --> Q["1️⃣2️⃣ 🏆 수료증(Certificate) 발급!"]
+    Q --> R["1️⃣3️⃣ GUI 모드 복귀<br/>graphical.target → reboot"]
+    R --> S["🤖 다음 과정: 젯봇미니<br/>(jetbotmini 폴더)"]
+```
+
 ---
 
 ## 1단계. 첫 부팅 & 우분투 초기 설정
