@@ -99,11 +99,26 @@ python venv        도커 컨테이너        가상머신(VM)
 ```mkdir -p ~/nvdli-data```
 
 ```#!/bin/bash```
-
+# 도커 명령어
+## 💡2GB 모델에서 실행할 때
 ```
-#도커명령
 sudo docker run --runtime nvidia -it --rm --network host \
     --memory=500M --memory-swap=4G \
+    --volume ~/nvdli-data:/nvdli-nano/data \
+    --volume /tmp/argus_socket:/tmp/argus_socket \
+    --device /dev/video0 \
+    nvcr.io/nvidia/dli/dli-nano-ai:v2.0.2-r32.7.1kr
+```
+
+
+## 💡 4GB 모델(일반 젯슨나노)에서 실행할 때
+
+위 명령은 **2GB 모델용**이다. `--memory=500M --memory-swap=4G`는 램이 부족한 2GB에서
+컨테이너의 메모리 사용을 강제로 제한하는 옵션이므로, **4GB 모델에서는 빼고 실행**한다
+(NVIDIA 공식 DLI 문서의 4GB용 명령과 동일):
+
+```
+sudo docker run --runtime nvidia -it --rm --network host \
     --volume ~/nvdli-data:/nvdli-nano/data \
     --volume /tmp/argus_socket:/tmp/argus_socket \
     --device /dev/video0 \
@@ -119,20 +134,6 @@ sudo docker run --runtime nvidia -it --rm --network host \
 |--volume ~/nvdli-data:/nvdli-nano/data	|호스트의 ~/nvdli-data 폴더를 컨테이너 내 /nvdli-nano/data로 마운트|
 |--device /dev/video0|Jetson Nano의 카메라 장치를 컨테이너에서 사용할 수 있도록 설정|
 |nvcr.io/nvidia/dli/dli-nano-ai:v2.0.2-r32.7.1kr|NVIDIA에서 제공하는 AI 실습 컨테이너 이미지|
-
-## 💡 4GB 모델(일반 젯슨나노)에서 실행할 때
-
-위 명령은 **2GB 모델용**이다. `--memory=500M --memory-swap=4G`는 램이 부족한 2GB에서
-컨테이너의 메모리 사용을 강제로 제한하는 옵션이므로, **4GB 모델에서는 빼고 실행**한다
-(NVIDIA 공식 DLI 문서의 4GB용 명령과 동일):
-
-```
-sudo docker run --runtime nvidia -it --rm --network host \
-    --volume ~/nvdli-data:/nvdli-nano/data \
-    --volume /tmp/argus_socket:/tmp/argus_socket \
-    --device /dev/video0 \
-    nvcr.io/nvidia/dli/dli-nano-ai:v2.0.2-r32.7.1kr
-```
 
 | | 2GB 모델 | 4GB 모델 |
 | --- | --- | --- |
