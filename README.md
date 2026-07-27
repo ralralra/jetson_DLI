@@ -13,6 +13,7 @@
 | 4️⃣ | [04_chatbot](./04_chatbot) | OpenAI Function Calling으로 센서 데이터를 읽는 챗봇 만들기 |
 | 5️⃣ | [05_jetbotmini](./05_jetbotmini) | 젯봇미니 조립·설치·AI·ROS 과정 (Yahboom Jetbot Mini) |
 | 6️⃣ | [06_data_analysis](./06_data_analysis) | 데이터 분석 실습 — 충남지역 데이터 분석·지도 시각화 |
+| 7️⃣ | [07_attendance_system](./07_attendance_system) | 얼굴인식 자동 출석 시스템 만들기 (face_recognition + USB 카메라) |
 | 🖼️ | [img](./img) | 문서에서 공용으로 쓰는 이미지 모음 |
 
 ## 🚀 처음 오셨다면
