@@ -25,4 +25,4 @@
 
 - **01_jetson_dli_course** : `0_전체 가이드` → `1_시작(이미지 굽기)` → `2_한글설치` → `3_도커와 스왑` → `4_classification 실습 노트북` / 매 수업 공통 : `5_깃허브 출석체크`
 - **04_chatbot** : `1_function_calling` → `2_arduino_dhtSensor` → `3_dht_chatbot(노트북)` → `4_api_chatbot`
-- **05_jetbotmini** : `00_학습순서_가이드.md` 먼저! (필수/스킵 구분 — PDF 40개 중 핵심 10개만 보면 완주)
+- **05_jetbotmini** : `00_학습순서_가이드.md` 먼저! (필수/스킵 구분 — PDF 40개 중 핵심 10개만 보면 완주) → 실습 중엔 `01_전체과정_한글정리.md` (영문 PDF 한글 요약본)
