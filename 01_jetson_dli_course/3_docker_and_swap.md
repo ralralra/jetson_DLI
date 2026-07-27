@@ -171,10 +171,12 @@ swapon --show
 **② 실행 스크립트 `docker_dli_run.sh` 만들기 (한 번만)**
 
 도커 실행 명령이 매우 길기 때문에, 직접 치지 말고 **처음부터 스크립트 파일로 저장**해서 사용한다.
-아래 `echo "..." > docker_dli_run.sh`는 따옴표 안의 긴 도커 명령을 파일로 저장하는 명령이다:
+아래 `echo "..." > docker_dli_run.sh`는 따옴표 안의 긴 도커 명령을 파일로 저장하는 명령이다.
+**내 모델(2GB/4GB)에 맞는 것 하나만** 실행하면 된다:
+
+### 💡 2GB 모델은 스크립트를 이렇게 만든다
 
 ```
-# 2GB 모델용 (4GB 모델은 아래 💡 4GB 섹션의 명령으로!)
 echo "sudo docker run --runtime nvidia -it --rm --network host \
     --memory=500M --memory-swap=4G \
     --volume ~/nvdli-data:/nvdli-nano/data \
@@ -184,6 +186,28 @@ echo "sudo docker run --runtime nvidia -it --rm --network host \
 
 chmod +x docker_dli_run.sh    # 실행 권한 부여
 ```
+
+### 💡 4GB 모델(일반 젯슨나노)은 스크립트를 이렇게 만든다
+
+`--memory=500M --memory-swap=4G`는 램이 부족한 2GB에서 컨테이너의 메모리 사용을
+강제로 제한하는 옵션이므로, **4GB 모델은 이 두 옵션을 뺀 스크립트**를 만든다
+(NVIDIA 공식 DLI 문서의 4GB용 명령과 동일):
+
+```
+echo "sudo docker run --runtime nvidia -it --rm --network host \
+    --volume ~/nvdli-data:/nvdli-nano/data \
+    --volume /tmp/argus_socket:/tmp/argus_socket \
+    --device /dev/video0 \
+    nvcr.io/nvidia/dli/dli-nano-ai:v2.0.2-r32.7.1kr" > docker_dli_run.sh
+
+chmod +x docker_dli_run.sh
+```
+
+| | 2GB 모델 | 4GB 모델 |
+| --- | --- | --- |
+| 메모리 제한 옵션 | `--memory=500M --memory-swap=4G` **필수** | **생략** (제한 없이 사용) |
+| 컨테이너 이미지 | 동일 (`dli-nano-ai:v2.0.2-r32.7.1kr`) | 동일 |
+| 실행 방법 | `./docker_dli_run.sh` | `./docker_dli_run.sh` (동일) |
 
 **③ 실행 — 이제부터는 언제나 이 한 줄뿐!**
 
@@ -205,29 +229,6 @@ chmod +x docker_dli_run.sh    # 실행 권한 부여
 |--volume ~/nvdli-data:/nvdli-nano/data	|호스트의 ~/nvdli-data 폴더를 컨테이너 내 /nvdli-nano/data로 마운트|
 |--device /dev/video0|Jetson Nano의 카메라 장치를 컨테이너에서 사용할 수 있도록 설정|
 |nvcr.io/nvidia/dli/dli-nano-ai:v2.0.2-r32.7.1kr|NVIDIA에서 제공하는 AI 실습 컨테이너 이미지|
-
-## 💡 4GB 모델(일반 젯슨나노)은 스크립트를 이렇게 만든다
-
-`--memory=500M --memory-swap=4G`는 램이 부족한 2GB에서 컨테이너의 메모리 사용을
-강제로 제한하는 옵션이므로, **4GB 모델은 이 두 옵션을 뺀 스크립트**를 만든다
-(NVIDIA 공식 DLI 문서의 4GB용 명령과 동일):
-
-```
-# 4GB 모델용 스크립트 만들기 (한 번만)
-echo "sudo docker run --runtime nvidia -it --rm --network host \
-    --volume ~/nvdli-data:/nvdli-nano/data \
-    --volume /tmp/argus_socket:/tmp/argus_socket \
-    --device /dev/video0 \
-    nvcr.io/nvidia/dli/dli-nano-ai:v2.0.2-r32.7.1kr" > docker_dli_run.sh
-
-chmod +x docker_dli_run.sh
-```
-
-| | 2GB 모델 | 4GB 모델 |
-| --- | --- | --- |
-| 메모리 제한 옵션 | `--memory=500M --memory-swap=4G` **필수** | **생략** (제한 없이 사용) |
-| 컨테이너 이미지 | 동일 (`dli-nano-ai:v2.0.2-r32.7.1kr`) | 동일 |
-| 실행 방법 | `./docker_dli_run.sh` | `./docker_dli_run.sh` (동일) |
 
 ![](../img/doker.png)
 
