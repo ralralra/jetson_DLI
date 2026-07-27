@@ -285,6 +285,10 @@ nvgstcapture-1.0 --mode=2 --camsrc=0 --cap-dev-node=0
 > **왜?** 젯슨나노 **2GB**는 램이 부족해서, 그대로 AI 실습(모델 훈련)을 하면 중간에 멈춥니다.
 > 디스크(SD카드)의 일부를 가짜 램(**스왑**)으로 쓰게 만들고, GUI를 꺼서(headless) 램을 아껴야 합니다.
 > **반드시 도커 실행(9단계) 전에 해주세요.** 자세한 설명은 👉 [3_docker_and_swap.md](./3_docker_and_swap.md)
+>
+> 💡 **4GB 모델 사용자라면?** 스왑은 필수가 아니라 **권장**입니다. 기초 실습은 그냥 진행해도 되지만,
+> 훈련 중 멈춤을 막으려면 같은 절차로 8GB 정도만 만들어 두세요 (`fallocate -l 8G /mnt/8GB.swap`, 이후 파일명 통일).
+> GUI를 계속 쓰고 싶으면 2번(headless 전환) 단계는 건너뛰어도 됩니다.
 
 터미널에서 한 줄씩:
 
@@ -384,8 +388,8 @@ echo "sudo docker run --runtime nvidia -it --rm --network host \
 chmod +x docker_dli_run.sh
 ```
 
-> - `--memory=500M --memory-swap=4G` : 2GB 모델용 메모리 제한 옵션
-> - `v2.0.2-r32.7.1kr` : **JetPack 4.6.1용 한국어 컨테이너**입니다. (JetPack 버전이 다르면 태그도 맞춰야 합니다)
+> - `--memory=500M --memory-swap=4G` : 2GB 모델용 메모리 제한 옵션 — **4GB 모델은 이 두 옵션을 빼고** 스크립트를 만드세요 (나머지는 동일)
+> - `v2.0.2-r32.7.1kr` : **JetPack 4.6.1용 한국어 컨테이너**입니다. (JetPack 버전이 다르면 태그도 맞춰야 합니다. 2GB/4GB 모델 공용)
 > - `chmod +x` 는 파일에 실행 권한을 주는 명령입니다.
 
 ### 9-3. 실행!
