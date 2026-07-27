@@ -151,9 +151,14 @@ chmod +x docker_dli_run.sh  # 실행 권한 부여
 
 ```sudo systemctl status docker```
 
-**Jetson에서 Docker GPU 지원 확인 (Jetson만 해당)**
+**Jetson에서 Docker GPU 지원(nvidia 런타임) 확인 (Jetson만 해당)**
 
-```sudo docker run --runtime=nvidia --rm nvidia/cuda:11.0-base nvidia-smi```
+```sudo docker info | grep -i nvidia```
+
+출력에 `nvidia` 런타임이 보이면 GPU 지원 준비가 된 것.
+
+> ⚠️ 참고: PC용 문서에 나오는 `nvidia-smi` 명령은 **젯슨에서는 동작하지 않는다**
+> (Tegra 계열엔 nvidia-smi가 없음). 젯슨에서 GPU 상태 확인은 `jtop`을 사용한다.
 
 
 ---
@@ -239,7 +244,7 @@ password는 보통 dlinano 라고 알려준다.
 
 ![](../img/009.png)  
 
-[5_classification_interactive.ipynb](5_classification_interactive.ipynb)
+[4_classification_interactive.ipynb](./4_classification_interactive.ipynb)
 
 ---
 
