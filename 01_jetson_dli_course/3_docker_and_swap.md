@@ -95,20 +95,39 @@ python venv        도커 컨테이너        가상머신(VM)
 
 ---
 
-# 2️⃣dir 추가하기
+# 2️⃣도커 실행 준비 — 처음부터 스크립트로!
+
+**① 데이터 폴더 만들기** (실습 결과가 컨테이너 밖에 남는 곳):
+
 ```mkdir -p ~/nvdli-data```
 
-```#!/bin/bash```
+**② 실행 스크립트 `docker_dli_run.sh` 만들기 (한 번만)**
+
+도커 실행 명령이 매우 길기 때문에, 직접 치지 말고 **처음부터 스크립트 파일로 저장**해서 사용한다.
+아래 `echo "..." > docker_dli_run.sh`는 따옴표 안의 긴 도커 명령을 파일로 저장하는 명령이다:
 
 ```
-#도커명령
-sudo docker run --runtime nvidia -it --rm --network host \
+# 2GB 모델용 (4GB 모델은 아래 💡 4GB 섹션의 명령으로!)
+echo "sudo docker run --runtime nvidia -it --rm --network host \
     --memory=500M --memory-swap=4G \
     --volume ~/nvdli-data:/nvdli-nano/data \
     --volume /tmp/argus_socket:/tmp/argus_socket \
     --device /dev/video0 \
-    nvcr.io/nvidia/dli/dli-nano-ai:v2.0.2-r32.7.1kr
+    nvcr.io/nvidia/dli/dli-nano-ai:v2.0.2-r32.7.1kr" > docker_dli_run.sh
+
+chmod +x docker_dli_run.sh    # 실행 권한 부여
 ```
+
+**③ 실행 — 이제부터는 언제나 이 한 줄뿐!**
+
+```
+./docker_dli_run.sh
+```
+
+처음 한 번은 이미지를 다운로드하므로 시간이 제법 걸린다. (와이파이가 끊기면 다시 실행)
+
+## 스크립트 안에 들어있는 도커 명령 옵션 설명
+
 |옵션|설명|
 | --- | --- |
 |sudo docker run|새로운 컨테이너를 실행|
@@ -120,48 +139,30 @@ sudo docker run --runtime nvidia -it --rm --network host \
 |--device /dev/video0|Jetson Nano의 카메라 장치를 컨테이너에서 사용할 수 있도록 설정|
 |nvcr.io/nvidia/dli/dli-nano-ai:v2.0.2-r32.7.1kr|NVIDIA에서 제공하는 AI 실습 컨테이너 이미지|
 
-## 💡 4GB 모델(일반 젯슨나노)에서 실행할 때
+## 💡 4GB 모델(일반 젯슨나노)은 스크립트를 이렇게 만든다
 
-위 명령은 **2GB 모델용**이다. `--memory=500M --memory-swap=4G`는 램이 부족한 2GB에서
-컨테이너의 메모리 사용을 강제로 제한하는 옵션이므로, **4GB 모델에서는 빼고 실행**한다
+`--memory=500M --memory-swap=4G`는 램이 부족한 2GB에서 컨테이너의 메모리 사용을
+강제로 제한하는 옵션이므로, **4GB 모델은 이 두 옵션을 뺀 스크립트**를 만든다
 (NVIDIA 공식 DLI 문서의 4GB용 명령과 동일):
 
 ```
-sudo docker run --runtime nvidia -it --rm --network host \
+# 4GB 모델용 스크립트 만들기 (한 번만)
+echo "sudo docker run --runtime nvidia -it --rm --network host \
     --volume ~/nvdli-data:/nvdli-nano/data \
     --volume /tmp/argus_socket:/tmp/argus_socket \
     --device /dev/video0 \
-    nvcr.io/nvidia/dli/dli-nano-ai:v2.0.2-r32.7.1kr
+    nvcr.io/nvidia/dli/dli-nano-ai:v2.0.2-r32.7.1kr" > docker_dli_run.sh
+
+chmod +x docker_dli_run.sh
 ```
 
 | | 2GB 모델 | 4GB 모델 |
 | --- | --- | --- |
 | 메모리 제한 옵션 | `--memory=500M --memory-swap=4G` **필수** | **생략** (제한 없이 사용) |
 | 컨테이너 이미지 | 동일 (`dli-nano-ai:v2.0.2-r32.7.1kr`) | 동일 |
-| 나머지 옵션 | 동일 | 동일 |
-
-스크립트로 만들 때도 마찬가지로 메모리 옵션만 빼고 `docker_dli_run.sh`를 만들면 된다.
+| 실행 방법 | `./docker_dli_run.sh` | `./docker_dli_run.sh` (동일) |
 
 ![](../img/doker.png)
-
-
-## 도커 실행 스크립트 자동화
-매번 긴 도커 명령어를 입력하는 대신 스크립트를 만들어 쉽게 실행할 수 있음.
-```
-echo "sudo docker run --runtime nvidia -it --rm --network host \
-    --memory=500M --memory-swap=4G \
-    --volume ~/nvdli-data:/nvdli-nano/data \
-    --volume /tmp/argus_socket:/tmp/argus_socket \
-    --device /dev/video0 \
-    nvcr.io/nvidia/dli/dli-nano-ai:v2.0.2-r32.7.1kr" > docker_dli_run.sh
-
-```
-이 명령어는 위의 도커 실행 명령어를 docker_dli_run.sh 파일에 저장하는 것.
-```
-chmod +x docker_dli_run.sh  # 실행 권한 부여
-./docker_dli_run.sh         # 실행
-```
-이제 다음부터는 ```./docker_dli_run.sh```만 입력하면 도커 실행됨.
 
 
 
@@ -246,14 +247,9 @@ swapon --show
 ```sudo reboot```
 
 
-*다시 도커 실행*
+*다시 도커 실행* — 2️⃣에서 만들어 둔 스크립트 한 줄이면 된다:
 ```
-sudo docker run --runtime nvidia -it --rm --network host \
-    --memory=500M --memory-swap=4G \
-    --volume ~/nvdli-data:/nvdli-nano/data \
-    --volume /tmp/argus_socket:/tmp/argus_socket \
-    --device /dev/video0 \
-    nvcr.io/nvidia/dli/dli-nano-ai:v2.0.2-r32.7.1kr
+./docker_dli_run.sh
 ```
 
 
