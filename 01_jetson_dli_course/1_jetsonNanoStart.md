@@ -73,8 +73,11 @@ Install and run the cooling fan
 팬을 항상 작동시키려면 아래 명령어를 입력합니다:
 ```
 sudo /usr/bin/jetson_clocks --fan
+```
 
 ## 깃허브에서 설치하는 방법
+
+```
 git clone https://github.com/jugfk/jetson-fan-ctl.git
 cd jetson-fan-ctl
 sudo sh install.sh

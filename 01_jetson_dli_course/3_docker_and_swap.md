@@ -54,6 +54,38 @@ DLI 과정이 끝난 후에도, 동일한 환경을 유지하면서 다른 사�
 
 🌍 즉, 도커 이미지를 공유하면 실험 및 연구를 쉽게 재현하고 배포할 수 있음!
 
+## 도커의 원리 — 컨테이너는 어떤 "가상환경"인가?
+
+도커도 가상환경의 한 종류지만, 가상머신(VM)처럼 OS를 통째로 하나 더 띄우는 방식이 **아니다**.
+
+### VM vs 컨테이너
+
+| | 가상머신(VM) | 도커 컨테이너 |
+|---|---|---|
+| 구조 | 하이퍼바이저 위에 **게스트 OS 전체**를 설치 | 호스트 **리눅스 커널을 공유**하고 프로세스만 격리 |
+| 크기/속도 | 수 GB, 부팅에 수 분 | 수백 MB, 시작 몇 초 |
+| 젯슨나노 2GB | ❌ 램 부족으로 사실상 불가 | ✅ 가능 — DLI가 도커를 택한 이유 |
+
+### 격리를 만드는 리눅스 커널의 두 기능
+
+1. **네임스페이스(namespace)** : 컨테이너 안 프로세스에게 자기만의 파일시스템·네트워크·프로세스 목록만 보이게 한다. 그래서 컨테이너 안은 별도의 컴퓨터처럼 보인다.
+2. **cgroups** : 컨테이너가 쓸 CPU·메모리 자원에 상한을 건다. 우리가 쓰는 `--memory=500M --memory-swap=4G` 옵션이 바로 cgroups 기능이다.
+
+### 이미지와 컨테이너의 관계
+
+- **이미지** = 실행에 필요한 모든 것(우분투 라이브러리 + CUDA + PyTorch + JupyterLab + 실습 노트북)을 **층층이(layer) 쌓아 얼려둔 스냅샷**. 읽기 전용이다.
+- **컨테이너** = 이미지를 실행한 **인스턴스**. 같은 이미지로 몇 개든 띄울 수 있다.
+- `--rm` 옵션 때문에 컨테이너는 종료 시 삭제된다. 그래서 실습 데이터는 `--volume ~/nvdli-data:...`로 **호스트 폴더에 연결(마운트)**해서 컨테이너 밖에 남긴다.
+- `--runtime nvidia`는 NVIDIA 컨테이너 런타임으로 **컨테이너 안에서도 젯슨의 GPU**를 쓸 수 있게 연결해준다.
+
+### venv / 도커 / VM 격리 수준 비교
+
+```
+가벼움 ◀─────────────────────────────▶ 무거움
+python venv        도커 컨테이너        가상머신(VM)
+(파이썬 패키지만)   (OS 라이브러리까지)   (커널·OS 전체)
+```
+
 **과정**
 
 1. DLI docker 설치 준비.
@@ -119,9 +151,14 @@ chmod +x docker_dli_run.sh  # 실행 권한 부여
 
 ```sudo systemctl status docker```
 
-**Jetson에서 Docker GPU 지원 확인 (Jetson만 해당)**
+**Jetson에서 Docker GPU 지원(nvidia 런타임) 확인 (Jetson만 해당)**
 
-```sudo docker run --runtime=nvidia --rm nvidia/cuda:11.0-base nvidia-smi```
+```sudo docker info | grep -i nvidia```
+
+출력에 `nvidia` 런타임이 보이면 GPU 지원 준비가 된 것.
+
+> ⚠️ 참고: PC용 문서에 나오는 `nvidia-smi` 명령은 **젯슨에서는 동작하지 않는다**
+> (Tegra 계열엔 nvidia-smi가 없음). 젯슨에서 GPU 상태 확인은 `jtop`을 사용한다.
 
 
 ---
@@ -207,11 +244,11 @@ password는 보통 dlinano 라고 알려준다.
 
 ![](../img/009.png)  
 
-[5_classification_interactive.ipynb](5_classification_interactive.ipynb)
+[4_classification_interactive.ipynb](./4_classification_interactive.ipynb)
 
 ---
 
 [🙋‍♂️ 5.next thumbs up down ](./4_classification_interactive.ipynb)
 
-[🙋‍♂️ 6.next arduino for jetson](../02_arduino_sensor/arduino_sensor_for_jetson.md)
+[🙋‍♂️ 6.next arduino for jetson](../03_arduino_sensor/arduino_sensor_for_jetson.md)
 

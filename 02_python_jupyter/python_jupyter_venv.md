@@ -16,6 +16,10 @@ cd Python-3.8.12
 ```
 ![](../img/python3.png)
 
+> ⚠️ **순서 주의** : `./configure`는 컴퓨터에 설치된 라이브러리를 그 시점에 검사한다.
+> 따라서 아래쪽의 **개발 라이브러리 설치(`libbz2-dev`, `libsqlite3-dev`, `build-essential` 등)를 먼저 실행한 후에**
+> `./configure` → `make` 순서로 진행해야 bz2·sqlite 지원이 빠지지 않는다.
+
 ```
 #./configure --enable-optimizations
 ./configure --enable-loadable-sqlite-extensions --with-bz2
