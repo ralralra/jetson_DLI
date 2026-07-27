@@ -11,7 +11,7 @@
 | 2️⃣ | [02_python_jupyter](./02_python_jupyter) | 파이썬 3.8 설치와 가상환경(venv), 주피터 노트북 세팅 — **DLI 실습(JupyterLab) 전에 주피터가 처음이라면 먼저 훑어보세요** |
 | 3️⃣ | [03_arduino_sensor](./03_arduino_sensor) | 아두이노 + DHT 온습도 센서를 젯슨나노에 연결하기 |
 | 4️⃣ | [04_chatbot](./04_chatbot) | OpenAI Function Calling으로 센서 데이터를 읽는 챗봇 만들기 |
-| 5️⃣ | [05_jetbotmini](./05_jetbotmini) | 젯봇미니 조립·설치·AI·ROS 과정 (Yahboom Jetbot Mini) |
+| 5️⃣ | [05_jetbotmini](./05_jetbotmini) | 젯봇미니 조립·설치·AI·ROS 과정 (Yahboom Jetbot Mini). 👉 [학습 순서 가이드](./05_jetbotmini/00_학습순서_가이드.md)부터! |
 | 6️⃣ | [06_data_analysis](./06_data_analysis) | 데이터 분석 실습 — 충남지역 데이터 분석·지도 시각화 |
 | 7️⃣ | [07_attendance_system](./07_attendance_system) | 얼굴인식 자동 출석 시스템 만들기 (face_recognition + USB 카메라) |
 | 🖼️ | [img](./img) | 문서에서 공용으로 쓰는 이미지 모음 |
@@ -25,4 +25,4 @@
 
 - **01_jetson_dli_course** : `0_전체 가이드` → `1_시작(이미지 굽기)` → `2_한글설치` → `3_도커와 스왑` → `4_classification 실습 노트북` / 매 수업 공통 : `5_깃허브 출석체크`
 - **04_chatbot** : `1_function_calling` → `2_arduino_dhtSensor` → `3_dht_chatbot(노트북)` → `4_api_chatbot`
-- **05_jetbotmini** : 폴더 안 `01.Installation` 부터 번호 순서대로
+- **05_jetbotmini** : `00_학습순서_가이드.md` 먼저! (필수/스킵 구분 — PDF 40개 중 핵심 10개만 보면 완주)
