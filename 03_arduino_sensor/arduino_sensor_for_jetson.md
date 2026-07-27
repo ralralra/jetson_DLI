@@ -147,6 +147,6 @@ Serial.println(humid);
 
 
 
-[🙋‍♂️ next jupyter notebook](../03_python_jupyter/python_jupyter_venv.md)
+[🙋‍♂️ next jupyter notebook](../02_python_jupyter/python_jupyter_venv.md)
 
 [🙋‍♂️dht_chatbot_functioncalling](../04_chatbot/3_dht_chatbot_functioncalling.ipynb)

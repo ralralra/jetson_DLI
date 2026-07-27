@@ -213,5 +213,5 @@ password는 보통 dlinano 라고 알려준다.
 
 [🙋‍♂️ 5.next thumbs up down ](./4_classification_interactive.ipynb)
 
-[🙋‍♂️ 6.next arduino for jetson](../02_arduino_sensor/arduino_sensor_for_jetson.md)
+[🙋‍♂️ 6.next arduino for jetson](../03_arduino_sensor/arduino_sensor_for_jetson.md)
 

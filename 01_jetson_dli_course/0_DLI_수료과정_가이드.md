@@ -347,6 +347,7 @@ http://<2단계에서 적어둔 젯슨나노 IP>:8888     (예: http://192.168.0
 - JupyterLab 화면이 열리면 성공! 🎉
 
 > 💡 JupyterLab이란? 웹브라우저에서 파이썬 코드를 한 칸(셀)씩 실행해보는 도구입니다.
+> 주피터가 처음이라면 실습 전에 👉 [02_python_jupyter](../02_python_jupyter/python_jupyter_venv.md) 폴더를 먼저 훑어보면 훨씬 수월합니다.
 > 왼쪽은 파일 탐색기, 위쪽은 메뉴, 셀을 선택하고 ▶(Run) 버튼을 누르면 실행됩니다.
 > `.ipynb` 파일 = Jupyter 노트북 파일. 실행 환경은 "커널(Kernel)"이라 부르며, 문제가 생기면 메뉴에서 Kernel → Restart 하면 됩니다.
 
@@ -444,7 +445,7 @@ sudo reboot
 ```
 
 - 정리한 내용을 본인 깃허브 저장소에 마크다운(md)으로 기록해보세요. (이 저장소처럼!)
-- 이어서 해볼 것: [arduino_sensor_for_jetson.md](../02_arduino_sensor/arduino_sensor_for_jetson.md) (아두이노 센서 연동), [python_jupyter_venv.md](../03_python_jupyter/python_jupyter_venv.md) (파이썬 가상환경)
+- 이어서 해볼 것: [arduino_sensor_for_jetson.md](../03_arduino_sensor/arduino_sensor_for_jetson.md) (아두이노 센서 연동), [python_jupyter_venv.md](../02_python_jupyter/python_jupyter_venv.md) (파이썬 가상환경)
 
 ---
 

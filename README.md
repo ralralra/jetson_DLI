@@ -8,8 +8,8 @@
 | 순서 | 폴더 | 내용 |
 |---|---|---|
 | 1️⃣ | [01_jetson_dli_course](./01_jetson_dli_course) | 젯슨나노 초기 세팅부터 **DLI "Getting Started with AI on Jetson Nano" 수료증**까지. 👉 [전체 가이드](./01_jetson_dli_course/0_DLI_수료과정_가이드.md)부터 시작하세요! |
-| 2️⃣ | [02_arduino_sensor](./02_arduino_sensor) | 아두이노 + DHT 온습도 센서를 젯슨나노에 연결하기 |
-| 3️⃣ | [03_python_jupyter](./03_python_jupyter) | 파이썬 3.8 설치와 가상환경(venv), 주피터 노트북 세팅 |
+| 2️⃣ | [02_python_jupyter](./02_python_jupyter) | 파이썬 3.8 설치와 가상환경(venv), 주피터 노트북 세팅 — **DLI 실습(JupyterLab) 전에 주피터가 처음이라면 먼저 훑어보세요** |
+| 3️⃣ | [03_arduino_sensor](./03_arduino_sensor) | 아두이노 + DHT 온습도 센서를 젯슨나노에 연결하기 |
 | 4️⃣ | [04_chatbot](./04_chatbot) | OpenAI Function Calling으로 센서 데이터를 읽는 챗봇 만들기 |
 | 5️⃣ | [05_jetbotmini](./05_jetbotmini) | 젯봇미니 조립·설치·AI·ROS 과정 (Yahboom Jetbot Mini) |
 | 6️⃣ | [06_data_analysis](./06_data_analysis) | 데이터 분석 실습 — 충남지역 데이터 분석·지도 시각화 |
