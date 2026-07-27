@@ -5,6 +5,10 @@
 >
 > **전제 조건** : SD 카드에 JetPack 이미지 굽기(포맷 + balena Etcher)는 이미 끝난 상태에서 시작합니다.
 > 이미지 굽기가 아직이라면 👉 [1_jetsonNanoStart.md](./1_jetsonNanoStart.md) 를 먼저 보세요.
+>
+> 📖 **이 가이드 읽는 법** : 0번 가이드는 **전체 흐름(지도)** 입니다. 각 단계에서 "무엇을·왜" 하는지와
+> 완료 확인 방법을 알려주고, **실제 명령어는 링크된 상세 문서(1️⃣~3️⃣)에서 한 번만** 실행하세요.
+> 여기 있는 명령을 하고 상세 문서에서 또 하면 같은 작업을 두 번 하게 됩니다!
 
 ---
 
@@ -148,83 +152,45 @@ ifconfig
 
 ## 3단계. 시스템 업데이트 + jtop 설치
 
-`jtop`은 젯슨나노의 온도·메모리·GPU 상태를 한눈에 보는 **시스템 모니터링 도구**입니다.
+**무엇을?** 소프트웨어 목록을 최신으로 만들고(update/upgrade), 파이썬 패키지 관리자(pip)를 설치한 뒤,
+온도·메모리·GPU를 한눈에 보는 모니터링 도구 **jtop**(jetson-stats)을 설치합니다.
 
-터미널에서 한 줄씩 입력합니다:
+**흐름** : `apt update/upgrade` → `python3-pip 설치` → `jetson-stats 설치` → 재부팅 → `jtop` 실행
 
-```bash
-sudo apt-get update
-sudo apt-get upgrade
-```
+👉 **실제 명령어는 [1_jetsonNanoStart.md — 2️⃣ jtop operation](./1_jetsonNanoStart.md)** 을 보면서 그대로 입력하세요.
 
-> `update`는 소프트웨어 목록을 최신으로 받아오고, `upgrade`는 실제 설치된 패키지를 업데이트합니다.
-> 비밀번호를 물어보면 `dli` 입력 (입력해도 화면에 안 보이는 게 정상입니다!)
-> `Do you want to continue? [Y/n]` 이 나오면 **Y** 입력.
+> 💡 비밀번호(`dli`)는 입력해도 화면에 안 보이는 게 정상! `Do you want to continue? [Y/n]`은 **Y**.
 
-파이썬 패키지 관리자(pip)와 jetson-stats 설치:
-
-```bash
-sudo apt install python3-pip
-sudo -H pip3 install -U jetson-stats
-```
-
-설치 확인 후 재부팅하고 실행:
-
-```bash
-pip3 list | grep jetson    # jetson-stats 가 보이면 성공
-sudo reboot
-```
-
-재부팅 후 터미널에서:
-
-```bash
-jtop
-```
-
-- CPU/GPU 사용량, 메모리, **온도(temperature)** 를 확인해보세요. (종료는 `q`)
-- 온도가 47℃를 넘어가는 경우도 있습니다 → 다음 단계에서 쿨링팬을 답니다.
+✅ **완료 확인** : `jtop` 실행 시 CPU/GPU/온도 화면이 나오면 성공 (종료는 `q`).
+온도가 47℃를 넘어가는 경우도 있습니다 → 다음 단계에서 쿨링팬을 답니다.
 
 ---
 
 ## 4단계. 쿨링팬 설치와 온도 관리
 
-### 4-1. 쿨링팬 장착 후 수동으로 돌려보기
+**무엇을?** 쿨링팬을 장착하고, 수동으로 돌려 온도가 내려가는지 확인한 뒤, 부팅 시 자동으로 돌게 설정합니다.
+
+**빠른 확인** — 장착 후 이 한 줄로 팬이 도는지 봅니다 (약 10도 떨어지기도 합니다):
 
 ```bash
-sudo sh -c 'echo 128 > /sys/devices/pwm-fan/target_pwm'
+sudo sh -c 'echo 128 > /sys/devices/pwm-fan/target_pwm'   # 끄기는 128 대신 0
 ```
 
-- 다시 `jtop`으로 온도를 확인해보세요. **약 10도 정도 떨어지기도 합니다.**
-- 팬 끄기: `sudo sh -c 'echo 0 > /sys/devices/pwm-fan/target_pwm'`
+👉 **자동 팬 제어(부팅 시 자동 실행) 설치는 [1_jetsonNanoStart.md — 3️⃣ cooling fan](./1_jetsonNanoStart.md)** 을 따라 하세요.
 
-### 4-2. 자동 팬 컨트롤 설치 (온도에 따라 자동 조절)
-
-```bash
-cd ~
-git clone https://github.com/jetsonworld/jetson-fan-ctl.git
-cd jetson-fan-ctl
-sudo sh install.sh
-```
-
-> `git clone`은 깃허브의 코드를 내 컴퓨터로 내려받는 명령, `sudo sh install.sh`는 설치 스크립트를 관리자 권한으로 실행하는 명령입니다.
+✅ **완료 확인** : `jtop`에서 온도가 내려가고, 재부팅 후에도 팬이 자동으로 돕니다.
 
 ---
 
 ## 5단계. (선택) 한글 입력기 설치
 
-수업 후기 작성 등 한글 입력이 필요하면 설치합니다. 자세한 과정은 👉 [2_한글설치.md](./2_한글설치.md)
+**무엇을?** 수업 후기 작성 등 한글 입력이 필요하면 fcitx-hangul 입력기를 설치합니다.
 
-```bash
-sudo apt-get update
-sudo apt install fcitx-hangul
-im-config -n fcitx
-reboot
-```
+👉 **설치 명령과 설정 화면은 [2_한글설치.md](./2_한글설치.md)** 를 따라 하세요.
 
-재부팅 후 Settings → **Language Support** 설정, 오른쪽 하단 키보드 아이콘 우클릭 → Configure에서 한글 추가.
-(참고 링크: https://driz2le.tistory.com/253)
+✅ **완료 확인** : 오른쪽 하단 키보드 아이콘에서 태극문양(한글)이 보이고 한/영 전환이 됩니다.
 
-> ⏰ 시간이 오래 걸리면 이 단계는 건너뛰고 나중에 해도 됩니다. DLI 수료에는 필요 없습니다.
+> ⏰ 시간이 오래 걸리면 이 단계는 건너뛰고 나중에 해도 됩니다. **DLI 수료에는 필요 없습니다.**
 
 ---
 
@@ -242,15 +208,12 @@ ls /dev/video0 -l
 
 ### 6-2. 카메라 영상 띄워보기
 
-```bash
-cd ~
-git clone https://github.com/jetsonhacks/USB-Camera.git
-cd USB-Camera
-python3 usb-camera-gst.py     # 카메라 영상이 창에 뜹니다
-python3 face-detect-usb.py    # 얼굴을 인식해 네모 박스가 그려집니다!
-```
+**무엇을?** USB-Camera 예제를 내려받아 카메라 영상 띄우기 → 얼굴 인식(네모 박스)까지 해봅니다.
 
-(창 닫기: 창 클릭 후 `Ctrl+C` 또는 q)
+👉 **명령어는 [1_jetsonNanoStart.md — 4️⃣ Installing the Camera](./1_jetsonNanoStart.md)** 를 따라 하세요.
+(git clone → `usb-camera-gst.py` → `face-detect-usb.py`, 창 닫기는 창 클릭 후 `Ctrl+C` 또는 q)
+
+✅ **완료 확인** : 내 얼굴 주위에 네모 박스가 그려지면 성공!
 
 ### 6-3. 사진과 영상 찍어보기
 
@@ -290,35 +253,17 @@ nvgstcapture-1.0 --mode=2 --camsrc=0 --cap-dev-node=0
 > 훈련 중 멈춤을 막으려면 같은 절차로 8GB 정도만 만들어 두세요 (`fallocate -l 8G /mnt/8GB.swap`, 이후 파일명 통일).
 > GUI를 계속 쓰고 싶으면 2번(headless 전환) 단계는 건너뛰어도 됩니다.
 
-터미널에서 한 줄씩:
+**흐름 (5개 작업)** :
+1. 기존 zram 스왑 끄기 (`nvzramconfig` 비활성화)
+2. 부팅 시 GUI를 끄고 headless(터미널만) 모드로 — 램 절약!
+3. 스왑 파일 만들기 (64GB 카드면 18~20GB 권장)
+4. 부팅 시 자동으로 스왑이 켜지게 등록 (fstab)
+5. 재부팅
 
-```bash
-# 1) 기존 zram 스왑 비활성화
-sudo systemctl disable nvzramconfig
+👉 **실제 명령어는 [3_docker_and_swap.md — 3️⃣ swap](./3_docker_and_swap.md)** 을 보면서 그대로 입력하세요.
 
-# 2) 부팅 시 GUI를 끄고 headless(터미널만) 모드로 — 램 절약!
-sudo systemctl set-default multi-user.target
-
-# 3) 스왑 파일 만들기 (SD카드 용량에 따라 조절: 64GB 카드면 18~20G 권장)
-sudo fallocate -l 18G /mnt/18GB.swap
-sudo chmod 600 /mnt/18GB.swap
-sudo mkswap /mnt/18GB.swap
-
-# 4) 부팅할 때마다 자동으로 스왑이 켜지게 등록
-sudo su
-echo "/mnt/18GB.swap swap swap defaults 0 0" >> /etc/fstab
-exit
-
-# 5) 재부팅
-sudo reboot
-```
-
-재부팅하면 **검은 화면에 글자만** 나옵니다. 고장이 아니라 headless 모드입니다! 😄
-`dli` / `dli` 로 로그인한 뒤 스왑 확인:
-
-```bash
-free -h     # Swap 항목에 18G가 보이면 성공
-```
+✅ **완료 확인** : 재부팅하면 **검은 화면에 글자만** 나옵니다 — 고장이 아니라 headless 모드! 😄
+`dli`/`dli`로 로그인 후 `free -h` 를 쳐서 Swap 항목에 18G가 보이면 성공.
 
 > 💡 나중에 GUI 화면으로 돌아오고 싶으면: `sudo systemctl set-default graphical.target` 후 `reboot` (13단계 참고)
 
@@ -341,65 +286,24 @@ ssh dli@192.168.55.1
 
 DLI 실습 환경(PyTorch, JupyterLab 등)이 모두 들어있는 **도커 컨테이너**를 실행합니다.
 
-### 🐳 잠깐! 도커(Docker)가 뭐예요? — 원리 이해하기
+### 🐳 도커(Docker)가 뭐예요? (30초 요약)
 
-**도커는 "가상환경"의 한 종류가 맞습니다.** 하지만 흔히 아는 가상머신(VM)과는 원리가 다릅니다.
+- 도커는 **가상환경**의 한 종류 — NVIDIA가 PyTorch+JupyterLab+실습노트북을 통째로 포장한 **이미지**를 받아서, 그걸 실행한 **컨테이너** 안에서 실습합니다.
+- VM처럼 OS를 통째로 띄우는 게 아니라 **젯슨의 리눅스 커널을 같이 쓰며 프로세스만 격리**하므로 램 2GB에서도 돌아갑니다.
+- 덕분에 CUDA·PyTorch 버전 맞추기 없이, 전 세계 수강생과 똑같은 환경을 명령어 한 줄로 받습니다.
 
-**🍱 도시락 비유**
-- **이미지(Image)** = 완성된 도시락 레시피. NVIDIA가 "PyTorch + JupyterLab + 실습 노트북"을 전부 담아 포장해둔 것 (`dli-nano-ai:v2.0.2-...`)
-- **컨테이너(Container)** = 그 레시피로 실제 차려낸 도시락 한 개. `docker run` 할 때마다 새로 차려지고, `--rm` 옵션 때문에 먹고 나면(종료하면) 치워집니다.
-- 그래서 실습 결과물은 도시락 안이 아니라 **밖에 있는 내 폴더**(`--volume ~/nvdli-data`)에 저장하는 겁니다. 컨테이너가 사라져도 데이터는 남으니까요!
+👉 **원리가 궁금하면(도시락 비유, VM 비교, namespace/cgroups) : [3_docker_and_swap.md — 도커의 원리](./3_docker_and_swap.md)**
 
-**가상머신(VM)과 뭐가 다른가요?**
+### 9-1 ~ 9-3. 도커 준비와 실행
 
-| | 가상머신(VM) | 도커 컨테이너 |
-|---|---|---|
-| 방식 | 컴퓨터 안에 **OS를 통째로** 하나 더 설치 | 호스트(젯슨나노)의 **리눅스 커널을 같이 쓰고**, 프로세스만 격리 |
-| 무게 | 수 GB, 부팅 수 분 | 수백 MB, 시작 몇 초 |
-| 젯슨나노 2GB에서 | ❌ 램이 부족해서 사실상 불가능 | ✅ 가능! (그래서 DLI가 도커를 쓰는 것) |
+**흐름 (3개 작업)** :
+1. 데이터 폴더 만들기 — `mkdir -p ~/nvdli-data` (실습 결과가 컨테이너 밖에 남는 곳)
+2. 실행 스크립트 `docker_dli_run.sh` 만들기 (한 번만) — 2GB는 메모리 제한 옵션 포함, **4GB는 제외**
+3. `./docker_dli_run.sh` 실행 — 처음 한 번은 이미지 다운로드로 **시간이 제법 걸립니다** (와이파이 끊기면 다시 실행)
 
-**격리는 어떻게 하나요? (커널의 두 가지 기능)**
-1. **네임스페이스(namespace)** — 컨테이너 안의 프로그램에게 "자기만의 파일시스템·네트워크·프로세스 목록"만 보이게 눈을 가려줍니다. 그래서 컨테이너 안은 완전히 다른 컴퓨터처럼 보입니다.
-2. **cgroups(자원 제한)** — 컨테이너가 쓸 수 있는 CPU·메모리 양에 상한선을 겁니다. 우리 명령어의 `--memory=500M`이 바로 이 기능을 쓰는 옵션입니다!
+👉 **실제 명령어는 [3_docker_and_swap.md — 1️⃣~2️⃣ 도커 실행과 스크립트](./3_docker_and_swap.md)** 를 보면서 그대로 입력하세요. (옵션 하나하나의 뜻과 2GB/4GB 차이표도 그 문서에 있습니다)
 
-**02폴더의 파이썬 venv와는 뭐가 다른가요?**
-- `venv` : **파이썬 패키지만** 격리 (가장 가벼움)
-- **도커** : 파이썬 + 시스템 라이브러리 + 설정까지 **OS 위 전부를** 격리 (중간)
-- VM : 하드웨어부터 OS까지 통째로 격리 (가장 무거움)
-
-> 💡 정리 : 도커 덕분에 우리는 CUDA·PyTorch 버전 맞추기 지옥을 겪지 않고, 전 세계 수강생과 **완전히 똑같은 실습 환경**을 명령어 한 줄로 받게 됩니다. `--runtime nvidia` 옵션이 컨테이너 안에서도 젯슨의 GPU를 쓸 수 있게 연결해줍니다.
-
-### 9-1. 데이터 폴더 만들기
-
-```bash
-mkdir -p ~/nvdli-data
-```
-
-### 9-2. 실행 스크립트 만들기 (한 번만)
-
-```bash
-echo "sudo docker run --runtime nvidia -it --rm --network host \
-    --memory=500M --memory-swap=4G \
-    --volume ~/nvdli-data:/nvdli-nano/data \
-    --volume /tmp/argus_socket:/tmp/argus_socket \
-    --device /dev/video0 \
-    nvcr.io/nvidia/dli/dli-nano-ai:v2.0.2-r32.7.1kr" > docker_dli_run.sh
-
-chmod +x docker_dli_run.sh
-```
-
-> - `--memory=500M --memory-swap=4G` : 2GB 모델용 메모리 제한 옵션 — **4GB 모델은 이 두 옵션을 빼고** 스크립트를 만드세요 (나머지는 동일)
-> - `v2.0.2-r32.7.1kr` : **JetPack 4.6.1용 한국어 컨테이너**입니다. (JetPack 버전이 다르면 태그도 맞춰야 합니다. 2GB/4GB 모델 공용)
-> - `chmod +x` 는 파일에 실행 권한을 주는 명령입니다.
-
-### 9-3. 실행!
-
-```bash
-./docker_dli_run.sh
-```
-
-- 처음 한 번은 이미지를 다운로드하므로 **시간이 제법 걸립니다.** (와이파이가 끊기면 다시 실행)
-- 끝나면 이런 메시지가 나옵니다:
+✅ **완료 확인** : 실행이 끝나면 이런 메시지가 나옵니다 —
 
 ```
 allow 10 sec for JupyterLab to start @ http://192.168.0.204:8888 (password dlinano)
