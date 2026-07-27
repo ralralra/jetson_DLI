@@ -71,20 +71,57 @@ flowchart TD
 4. 무선 키보드/마우스 동글 확인 (USB 포트)
 5. **마지막으로 파워선 연결** → 자동으로 부팅됩니다.
 
-### 1-2. 우분투 초기 설정 마법사
+### 1-2. 우분투 초기 설정 마법사 (실제 화면 사진과 함께!)
 
-부팅되면 초록색 NVIDIA 화면 후 설정 화면이 나옵니다. 순서대로:
+부팅되면 NVIDIA 로고 후 설정 화면이 나옵니다. 아래 사진과 똑같이 진행하면 됩니다:
 
-1. 라이선스 동의 → **Continue**
-2. 언어 : **English** 선택 (⚠️ 한국어 말고 English! 나중에 오류가 적습니다)
-3. 키보드 : English (US)
-4. 와이파이 선택 후 인터넷 비밀번호 입력
-5. 시간대 : 지도를 클릭해서 **Seoul** 이 나오게 합니다
-6. 사용자 계정 만들기 — 교육 통일 계정:
-   - **Your name : `dli`**
-   - **Password : `dli`**
-7. APP 파티션 크기는 기본값(최대) 그대로 → Continue
-8. 절차가 끝나면 자동으로 **reboot** 되고 멋진 녹색 바탕화면이 나옵니다. 준비 끝! 🎉
+**① 라이선스 동의** — `I accept the terms of these licenses` 체크 → **Continue**
+
+![라이선스 동의](../img/setup/setup01_license.jpg)
+
+**② 언어 선택** — **English** (⚠️ 한국어 말고 English! 나중에 오류가 적습니다)
+
+![언어 선택 English](../img/setup/setup02_language.jpg)
+
+**③ 키보드** — **English (US)** → Continue
+
+![키보드 English US](../img/setup/setup03_keyboard.jpg)
+
+**④ 와이파이 연결** — 우리 교실 와이파이를 선택하고 비밀번호 입력 → Connect
+
+![와이파이 비밀번호 입력](../img/setup/setup04_wifi.jpg)
+
+**⑤ 시간대** — 지도에서 한국을 클릭해 **Seoul** 이 나오게 → Continue
+
+![시간대 Seoul 선택](../img/setup/setup05_seoul.jpg)
+
+**⑥ 사용자 계정 만들기** — 교육 통일 계정으로 입력:
+   - **Your name : `dli`** / **Password : `dli`** (사진 속 이름은 예시입니다 — 우리는 전부 `dli`로 통일!)
+   - `Log in automatically`를 선택하면 부팅할 때 편합니다
+   - "Short password" 경고는 무시하고 Continue
+
+![계정 만들기](../img/setup/setup06_account.jpg)
+
+**⑦ APP 파티션 크기** — 기본값(최대 크기)이 이미 입력되어 있으니 **그대로** Continue
+
+![APP 파티션 크기](../img/setup/setup07_partition.jpg)
+
+**⑧ SWAP 파일 생성** — **Create SWAP File (Recommended)** 선택 → Continue
+   (AI 학습에 필요한 기본 4GB 스왑입니다. 2GB 모델은 나중에 8단계에서 더 크게 늘립니다)
+
+![SWAP 파일 생성](../img/setup/setup08_swapfile.jpg)
+
+**⑨ 전원 모드(Nvpmodel)** — 기본값 **MAXN** 그대로 → Continue
+
+![Nvpmodel 전원 모드](../img/setup/setup09_nvpmodel.jpg)
+
+**⑩ 설정 적용 중...** — 잠시 기다립니다 (건드리지 마세요!)
+
+![설정 적용 중](../img/setup/setup10_applying.jpg)
+
+**⑪ 완료!** — 자동으로 재부팅되고 멋진 **녹색 NVIDIA 바탕화면**이 나오면 성공입니다. 준비 끝! 🎉
+
+![녹색 바탕화면 = 성공!](../img/setup/setup11_desktop.jpg)
 
 ---
 
