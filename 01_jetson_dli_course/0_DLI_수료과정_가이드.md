@@ -260,7 +260,7 @@ nvgstcapture-1.0 --mode=2 --camsrc=0 --cap-dev-node=0
 4. 부팅 시 자동으로 스왑이 켜지게 등록 (fstab)
 5. 재부팅
 
-👉 **실제 명령어는 [3_docker_and_swap.md — 3️⃣ swap](./3_docker_and_swap.md)** 을 보면서 그대로 입력하세요.
+👉 **실제 명령어는 [3_docker_and_swap.md — 2️⃣ swap 설정](./3_docker_and_swap.md)** 을 보면서 그대로 입력하세요.
 
 ✅ **완료 확인** : 재부팅하면 **검은 화면에 글자만** 나옵니다 — 고장이 아니라 headless 모드! 😄
 `dli`/`dli`로 로그인 후 `free -h` 를 쳐서 Swap 항목에 18G가 보이면 성공.
@@ -301,7 +301,7 @@ DLI 실습 환경(PyTorch, JupyterLab 등)이 모두 들어있는 **도커 컨�
 2. 실행 스크립트 `docker_dli_run.sh` 만들기 (한 번만) — 2GB는 메모리 제한 옵션 포함, **4GB는 제외**
 3. `./docker_dli_run.sh` 실행 — 처음 한 번은 이미지 다운로드로 **시간이 제법 걸립니다** (와이파이 끊기면 다시 실행)
 
-👉 **실제 명령어는 [3_docker_and_swap.md — 1️⃣~2️⃣ 도커 실행과 스크립트](./3_docker_and_swap.md)** 를 보면서 그대로 입력하세요. (옵션 하나하나의 뜻과 2GB/4GB 차이표도 그 문서에 있습니다)
+👉 **실제 명령어는 [3_docker_and_swap.md — 3️⃣ 도커 실행](./3_docker_and_swap.md)** 을 보면서 그대로 입력하세요. (옵션 하나하나의 뜻과 2GB/4GB 차이표도 그 문서에 있습니다)
 
 ✅ **완료 확인** : 실행이 끝나면 이런 메시지가 나옵니다 —
 

@@ -95,98 +95,9 @@ python venv        도커 컨테이너        가상머신(VM)
 
 ---
 
-# 2️⃣dir 추가하기
-```mkdir -p ~/nvdli-data```
-
-```#!/bin/bash```
-# 도커 명령어
-## 💡2GB 모델에서 실행할 때
-```
-sudo docker run --runtime nvidia -it --rm --network host \
-    --memory=500M --memory-swap=4G \
-    --volume ~/nvdli-data:/nvdli-nano/data \
-    --volume /tmp/argus_socket:/tmp/argus_socket \
-    --device /dev/video0 \
-    nvcr.io/nvidia/dli/dli-nano-ai:v2.0.2-r32.7.1kr
-```
-
-
-## 💡 4GB 모델(일반 젯슨나노)에서 실행할 때
-
-위 명령은 **2GB 모델용**이다. `--memory=500M --memory-swap=4G`는 램이 부족한 2GB에서
-컨테이너의 메모리 사용을 강제로 제한하는 옵션이므로, **4GB 모델에서는 빼고 실행**한다
-(NVIDIA 공식 DLI 문서의 4GB용 명령과 동일):
-
-```
-sudo docker run --runtime nvidia -it --rm --network host \
-    --volume ~/nvdli-data:/nvdli-nano/data \
-    --volume /tmp/argus_socket:/tmp/argus_socket \
-    --device /dev/video0 \
-    nvcr.io/nvidia/dli/dli-nano-ai:v2.0.2-r32.7.1kr
-```
-|옵션|설명|
-| --- | --- |
-|sudo docker run|새로운 컨테이너를 실행|
-|--runtime nvidia|NVIDIA GPU를 사용할 수 있도록 설정|
-|-it|인터랙티브(터미널에서 사용 가능) 모드|
-|--rm|컨테이너 종료 시 자동 삭제|
-|--network host|호스트 네트워크 사용 (Jetson Nano의 네트워크를 직접 사용)|
-|--volume ~/nvdli-data:/nvdli-nano/data	|호스트의 ~/nvdli-data 폴더를 컨테이너 내 /nvdli-nano/data로 마운트|
-|--device /dev/video0|Jetson Nano의 카메라 장치를 컨테이너에서 사용할 수 있도록 설정|
-|nvcr.io/nvidia/dli/dli-nano-ai:v2.0.2-r32.7.1kr|NVIDIA에서 제공하는 AI 실습 컨테이너 이미지|
-
-| | 2GB 모델 | 4GB 모델 |
-| --- | --- | --- |
-| 메모리 제한 옵션 | `--memory=500M --memory-swap=4G` **필수** | **생략** (제한 없이 사용) |
-| 컨테이너 이미지 | 동일 (`dli-nano-ai:v2.0.2-r32.7.1kr`) | 동일 |
-| 나머지 옵션 | 동일 | 동일 |
-
-스크립트로 만들 때도 마찬가지로 메모리 옵션만 빼고 `docker_dli_run.sh`를 만들면 된다.
-
-![](../img/doker.png)
-
-
-## 도커 실행 스크립트 자동화
-매번 긴 도커 명령어를 입력하는 대신 스크립트를 만들어 쉽게 실행할 수 있음.
-```
-echo "sudo docker run --runtime nvidia -it --rm --network host \
-    --memory=500M --memory-swap=4G \
-    --volume ~/nvdli-data:/nvdli-nano/data \
-    --volume /tmp/argus_socket:/tmp/argus_socket \
-    --device /dev/video0 \
-    nvcr.io/nvidia/dli/dli-nano-ai:v2.0.2-r32.7.1kr" > docker_dli_run.sh
-
-```
-이 명령어는 위의 도커 실행 명령어를 docker_dli_run.sh 파일에 저장하는 것.
-```
-chmod +x docker_dli_run.sh  # 실행 권한 부여
-./docker_dli_run.sh         # 실행
-```
-이제 다음부터는 ```./docker_dli_run.sh```만 입력하면 도커 실행됨.
-
-
-
-**Docker가 설치되어 있는지 확인**
-
-```docker --version```
-
-**Docker 서비스 상태 확인**
-
-```sudo systemctl status docker```
-
-**Jetson에서 Docker GPU 지원(nvidia 런타임) 확인 (Jetson만 해당)**
-
-```sudo docker info | grep -i nvidia```
-
-출력에 `nvidia` 런타임이 보이면 GPU 지원 준비가 된 것.
-
-> ⚠️ 참고: PC용 문서에 나오는 `nvidia-smi` 명령은 **젯슨에서는 동작하지 않는다**
-> (Tegra 계열엔 nvidia-smi가 없음). 젯슨에서 GPU 상태 확인은 `jtop`을 사용한다.
-
-
----
-# 3️⃣swap
-Jetson 보드에서 Docker 컨테이너를 실행할 때 발생하는 메모리 문제를 해결하기 위해 swap을 사용한다
+# 2️⃣swap 설정 — ⚠️ 도커 실행 전에 먼저!
+Jetson 보드에서 Docker 컨테이너를 실행할 때 발생하는 메모리 문제를 해결하기 위해 swap을 사용한다.
+**특히 2GB 모델은 스왑 없이 도커 실습을 하면 반드시 멈추므로, 도커(3️⃣)보다 먼저 해야 한다.**
 
 > 💡 **2GB vs 4GB** :
 > - **2GB 모델** — 스왑이 **필수**. 없으면 모델 훈련 중 반드시 멈춘다. 아래 절차 전부 진행 (18~20GB 권장).
@@ -247,18 +158,101 @@ swapon --show
 ```sudo reboot```
 
 
-*다시 도커 실행*
+✅ 재부팅까지 끝났으면 스왑 준비 완료! 이제 아래 3️⃣에서 도커를 실행한다.
+
+---
+
+# 3️⃣도커 실행 — 처음부터 스크립트로!
+
+**① 데이터 폴더 만들기** (실습 결과가 컨테이너 밖에 남는 곳):
+
+```mkdir -p ~/nvdli-data```
+
+**② 실행 스크립트 `docker_dli_run.sh` 만들기 (한 번만)**
+
+도커 실행 명령이 매우 길기 때문에, 직접 치지 말고 **처음부터 스크립트 파일로 저장**해서 사용한다.
+아래 `echo "..." > docker_dli_run.sh`는 따옴표 안의 긴 도커 명령을 파일로 저장하는 명령이다.
+**내 모델(2GB/4GB)에 맞는 것 하나만** 실행하면 된다:
+
+### 💡 2GB 모델은 스크립트를 이렇게 만든다
+
 ```
-sudo docker run --runtime nvidia -it --rm --network host \
+echo "sudo docker run --runtime nvidia -it --rm --network host \
     --memory=500M --memory-swap=4G \
     --volume ~/nvdli-data:/nvdli-nano/data \
     --volume /tmp/argus_socket:/tmp/argus_socket \
     --device /dev/video0 \
-    nvcr.io/nvidia/dli/dli-nano-ai:v2.0.2-r32.7.1kr
+    nvcr.io/nvidia/dli/dli-nano-ai:v2.0.2-r32.7.1kr" > docker_dli_run.sh
+
+chmod +x docker_dli_run.sh    # 실행 권한 부여
 ```
 
+### 💡 4GB 모델(일반 젯슨나노)은 스크립트를 이렇게 만든다
 
-![](../img/jupyter.png) 
+`--memory=500M --memory-swap=4G`는 램이 부족한 2GB에서 컨테이너의 메모리 사용을
+강제로 제한하는 옵션이므로, **4GB 모델은 이 두 옵션을 뺀 스크립트**를 만든다
+(NVIDIA 공식 DLI 문서의 4GB용 명령과 동일):
+
+```
+echo "sudo docker run --runtime nvidia -it --rm --network host \
+    --volume ~/nvdli-data:/nvdli-nano/data \
+    --volume /tmp/argus_socket:/tmp/argus_socket \
+    --device /dev/video0 \
+    nvcr.io/nvidia/dli/dli-nano-ai:v2.0.2-r32.7.1kr" > docker_dli_run.sh
+
+chmod +x docker_dli_run.sh
+```
+
+| | 2GB 모델 | 4GB 모델 |
+| --- | --- | --- |
+| 메모리 제한 옵션 | `--memory=500M --memory-swap=4G` **필수** | **생략** (제한 없이 사용) |
+| 컨테이너 이미지 | 동일 (`dli-nano-ai:v2.0.2-r32.7.1kr`) | 동일 |
+| 실행 방법 | `./docker_dli_run.sh` | `./docker_dli_run.sh` (동일) |
+
+**③ 실행 — 이제부터는 언제나 이 한 줄뿐!**
+
+```
+./docker_dli_run.sh
+```
+
+처음 한 번은 이미지를 다운로드하므로 시간이 제법 걸린다. (와이파이가 끊기면 다시 실행)
+
+## 스크립트 안에 들어있는 도커 명령 옵션 설명
+
+|옵션|설명|
+| --- | --- |
+|sudo docker run|새로운 컨테이너를 실행|
+|--runtime nvidia|NVIDIA GPU를 사용할 수 있도록 설정|
+|-it|인터랙티브(터미널에서 사용 가능) 모드|
+|--rm|컨테이너 종료 시 자동 삭제|
+|--network host|호스트 네트워크 사용 (Jetson Nano의 네트워크를 직접 사용)|
+|--volume ~/nvdli-data:/nvdli-nano/data	|호스트의 ~/nvdli-data 폴더를 컨테이너 내 /nvdli-nano/data로 마운트|
+|--device /dev/video0|Jetson Nano의 카메라 장치를 컨테이너에서 사용할 수 있도록 설정|
+|nvcr.io/nvidia/dli/dli-nano-ai:v2.0.2-r32.7.1kr|NVIDIA에서 제공하는 AI 실습 컨테이너 이미지|
+
+![](../img/doker.png)
+
+
+
+**Docker가 설치되어 있는지 확인**
+
+```docker --version```
+
+**Docker 서비스 상태 확인**
+
+```sudo systemctl status docker```
+
+**Jetson에서 Docker GPU 지원(nvidia 런타임) 확인 (Jetson만 해당)**
+
+```sudo docker info | grep -i nvidia```
+
+출력에 `nvidia` 런타임이 보이면 GPU 지원 준비가 된 것.
+
+> ⚠️ 참고: PC용 문서에 나오는 `nvidia-smi` 명령은 **젯슨에서는 동작하지 않는다**
+> (Tegra 계열엔 nvidia-smi가 없음). 젯슨에서 GPU 상태 확인은 `jtop`을 사용한다.
+
+
+![](../img/jupyter.png)
 
 # 4️⃣jupyter notebook 사용하기
 *http://192.168.***.***:8888 (password dlinano)*
