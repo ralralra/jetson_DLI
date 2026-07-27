@@ -120,6 +120,28 @@ sudo docker run --runtime nvidia -it --rm --network host \
 |--device /dev/video0|Jetson Nano의 카메라 장치를 컨테이너에서 사용할 수 있도록 설정|
 |nvcr.io/nvidia/dli/dli-nano-ai:v2.0.2-r32.7.1kr|NVIDIA에서 제공하는 AI 실습 컨테이너 이미지|
 
+## 💡 4GB 모델(일반 젯슨나노)에서 실행할 때
+
+위 명령은 **2GB 모델용**이다. `--memory=500M --memory-swap=4G`는 램이 부족한 2GB에서
+컨테이너의 메모리 사용을 강제로 제한하는 옵션이므로, **4GB 모델에서는 빼고 실행**한다
+(NVIDIA 공식 DLI 문서의 4GB용 명령과 동일):
+
+```
+sudo docker run --runtime nvidia -it --rm --network host \
+    --volume ~/nvdli-data:/nvdli-nano/data \
+    --volume /tmp/argus_socket:/tmp/argus_socket \
+    --device /dev/video0 \
+    nvcr.io/nvidia/dli/dli-nano-ai:v2.0.2-r32.7.1kr
+```
+
+| | 2GB 모델 | 4GB 모델 |
+| --- | --- | --- |
+| 메모리 제한 옵션 | `--memory=500M --memory-swap=4G` **필수** | **생략** (제한 없이 사용) |
+| 컨테이너 이미지 | 동일 (`dli-nano-ai:v2.0.2-r32.7.1kr`) | 동일 |
+| 나머지 옵션 | 동일 | 동일 |
+
+스크립트로 만들 때도 마찬가지로 메모리 옵션만 빼고 `docker_dli_run.sh`를 만들면 된다.
+
 ![](../img/doker.png)
 
 
@@ -164,6 +186,13 @@ chmod +x docker_dli_run.sh  # 실행 권한 부여
 ---
 # 3️⃣swap
 Jetson 보드에서 Docker 컨테이너를 실행할 때 발생하는 메모리 문제를 해결하기 위해 swap을 사용한다
+
+> 💡 **2GB vs 4GB** :
+> - **2GB 모델** — 스왑이 **필수**. 없으면 모델 훈련 중 반드시 멈춘다. 아래 절차 전부 진행 (18~20GB 권장).
+> - **4GB 모델** — 스왑이 **권장**. 기초 실습은 스왑 없이도 돌지만, 모델 훈련이나 CSI 카메라 사용 시
+>   멈춤 방지를 위해 만들어 두는 것이 좋다. 절차는 동일하고 크기만 줄여도 된다 (예: `fallocate -l 8G /mnt/8GB.swap`,
+>   이후 명령의 파일명도 `8GB.swap`으로 통일). GUI를 계속 쓰고 싶다면 `set-default multi-user.target`(headless 전환)
+>   단계는 건너뛰어도 된다.
 
 Jetson 보드는 메모리가 제한적이므로, Docker 컨테이너를 원활하게 실행하기 위해 
 ZRAM을 비활성화하면 CPU 사용량을 줄이고, Docker 컨테이너가 더 많은 메모리를 사용할 수 있다
