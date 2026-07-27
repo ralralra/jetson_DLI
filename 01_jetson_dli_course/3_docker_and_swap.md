@@ -95,7 +95,74 @@ python venv        도커 컨테이너        가상머신(VM)
 
 ---
 
-# 2️⃣도커 실행 준비 — 처음부터 스크립트로!
+# 2️⃣swap 설정 — ⚠️ 도커 실행 전에 먼저!
+Jetson 보드에서 Docker 컨테이너를 실행할 때 발생하는 메모리 문제를 해결하기 위해 swap을 사용한다.
+**특히 2GB 모델은 스왑 없이 도커 실습을 하면 반드시 멈추므로, 도커(3️⃣)보다 먼저 해야 한다.**
+
+> 💡 **2GB vs 4GB** :
+> - **2GB 모델** — 스왑이 **필수**. 없으면 모델 훈련 중 반드시 멈춘다. 아래 절차 전부 진행 (18~20GB 권장).
+> - **4GB 모델** — 스왑이 **권장**. 기초 실습은 스왑 없이도 돌지만, 모델 훈련이나 CSI 카메라 사용 시
+>   멈춤 방지를 위해 만들어 두는 것이 좋다. 절차는 동일하고 크기만 줄여도 된다 (예: `fallocate -l 8G /mnt/8GB.swap`,
+>   이후 명령의 파일명도 `8GB.swap`으로 통일). GUI를 계속 쓰고 싶다면 `set-default multi-user.target`(headless 전환)
+>   단계는 건너뛰어도 된다.
+
+Jetson 보드는 메모리가 제한적이므로, Docker 컨테이너를 원활하게 실행하기 위해 
+ZRAM을 비활성화하면 CPU 사용량을 줄이고, Docker 컨테이너가 더 많은 메모리를 사용할 수 있다
+
+ZRAM을 비활성화하고, 스왑(Swap) 파일을 추가하는 작업을 수행하는 것
+
+만약 Docker 컨테이너가 여러 개 실행될 경우, RAM이 부족하면 컨테이너가 충돌하거나 종료된다.
+
+이를 방지하기 위해 스왑을 생성하여 가상 메모리를 추가하는 것
+
+| 과정 | 이유 |
+| --- | --- |
+| ZRAM 비활성화 ```systemctl disable nvzramconfig```| CPU 사용량을 줄이고, 스왑을 직접 사용할 수 있도록 함 | 
+| 스왑 파일 생성 ```fallocate -l 18G /mnt/18GB.swap``` | 메모리가 부족할 경우 추가적인 가상 메모리를 제공| 
+| GUI 비활성화 ```systemctl set-default multi-user.target```| Docker 컨테이너 실행 시 GUI가 필요 없다면 RAM 사용량을 줄이기 위해 비활성화 |
+| GUI 활성화| ```sudo systemctl set-default graphical.target```|
+
+
+```multi-user.target```을 설정하면 GUI를 사용하지 않으므로 RAM 사용량이 줄어들기도 한다.
+
+
+ **ZRAM 비활성화**
+
+```
+sudo systemctl disable nvzramconfig
+```
+
+ **스왑 파일 생성**
+```
+sudo fallocate -l 18G /mnt/18GB.swap
+sudo chmod 600 /mnt/18GB.swap
+sudo mkswap /mnt/18GB.swap
+```
+
+**부팅 시 자동 적용을 위해 /etc/fstab에 추가**
+```
+echo "/mnt/18GB.swap swap swap defaults 0 0" | sudo tee -a /etc/fstab
+```
+
+**스왑 파일 적용 (재부팅 없이 적용 가능)**
+
+```sudo swapon /mnt/18GB.swap```
+
+**스왑이 정상적으로 적용되었는지 확인**
+```
+free -h
+swapon --show
+```
+
+**시스템 재부팅**
+```sudo reboot```
+
+
+✅ 재부팅까지 끝났으면 스왑 준비 완료! 이제 아래 3️⃣에서 도커를 실행한다.
+
+---
+
+# 3️⃣도커 실행 — 처음부터 스크립트로!
 
 **① 데이터 폴더 만들기** (실습 결과가 컨테이너 밖에 남는 곳):
 
@@ -184,76 +251,7 @@ chmod +x docker_dli_run.sh
 > (Tegra 계열엔 nvidia-smi가 없음). 젯슨에서 GPU 상태 확인은 `jtop`을 사용한다.
 
 
----
-# 3️⃣swap
-Jetson 보드에서 Docker 컨테이너를 실행할 때 발생하는 메모리 문제를 해결하기 위해 swap을 사용한다
-
-> 💡 **2GB vs 4GB** :
-> - **2GB 모델** — 스왑이 **필수**. 없으면 모델 훈련 중 반드시 멈춘다. 아래 절차 전부 진행 (18~20GB 권장).
-> - **4GB 모델** — 스왑이 **권장**. 기초 실습은 스왑 없이도 돌지만, 모델 훈련이나 CSI 카메라 사용 시
->   멈춤 방지를 위해 만들어 두는 것이 좋다. 절차는 동일하고 크기만 줄여도 된다 (예: `fallocate -l 8G /mnt/8GB.swap`,
->   이후 명령의 파일명도 `8GB.swap`으로 통일). GUI를 계속 쓰고 싶다면 `set-default multi-user.target`(headless 전환)
->   단계는 건너뛰어도 된다.
-
-Jetson 보드는 메모리가 제한적이므로, Docker 컨테이너를 원활하게 실행하기 위해 
-ZRAM을 비활성화하면 CPU 사용량을 줄이고, Docker 컨테이너가 더 많은 메모리를 사용할 수 있다
-
-ZRAM을 비활성화하고, 스왑(Swap) 파일을 추가하는 작업을 수행하는 것
-
-만약 Docker 컨테이너가 여러 개 실행될 경우, RAM이 부족하면 컨테이너가 충돌하거나 종료된다.
-
-이를 방지하기 위해 스왑을 생성하여 가상 메모리를 추가하는 것
-
-| 과정 | 이유 |
-| --- | --- |
-| ZRAM 비활성화 ```systemctl disable nvzramconfig```| CPU 사용량을 줄이고, 스왑을 직접 사용할 수 있도록 함 | 
-| 스왑 파일 생성 ```fallocate -l 18G /mnt/18GB.swap``` | 메모리가 부족할 경우 추가적인 가상 메모리를 제공| 
-| GUI 비활성화 ```systemctl set-default multi-user.target```| Docker 컨테이너 실행 시 GUI가 필요 없다면 RAM 사용량을 줄이기 위해 비활성화 |
-| GUI 활성화| ```sudo systemctl set-default graphical.target```|
-
-
-```multi-user.target```을 설정하면 GUI를 사용하지 않으므로 RAM 사용량이 줄어들기도 한다.
-
-
- **ZRAM 비활성화**
-
-```
-sudo systemctl disable nvzramconfig
-```
-
- **스왑 파일 생성**
-```
-sudo fallocate -l 18G /mnt/18GB.swap
-sudo chmod 600 /mnt/18GB.swap
-sudo mkswap /mnt/18GB.swap
-```
-
-**부팅 시 자동 적용을 위해 /etc/fstab에 추가**
-```
-echo "/mnt/18GB.swap swap swap defaults 0 0" | sudo tee -a /etc/fstab
-```
-
-**스왑 파일 적용 (재부팅 없이 적용 가능)**
-
-```sudo swapon /mnt/18GB.swap```
-
-**스왑이 정상적으로 적용되었는지 확인**
-```
-free -h
-swapon --show
-```
-
-**시스템 재부팅**
-```sudo reboot```
-
-
-*다시 도커 실행* — 2️⃣에서 만들어 둔 스크립트 한 줄이면 된다:
-```
-./docker_dli_run.sh
-```
-
-
-![](../img/jupyter.png) 
+![](../img/jupyter.png)
 
 # 4️⃣jupyter notebook 사용하기
 *http://192.168.***.***:8888 (password dlinano)*
