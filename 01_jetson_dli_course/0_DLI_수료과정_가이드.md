@@ -26,6 +26,9 @@
 | 12 | 🏆 수료증 받기 | 5분 |
 | 13 | GUI 모드 복귀 & 마무리 | 10분 |
 
+> ✅ **매 수업 공통 — 깃허브 출석체크** : 수업이 끝날 때마다 배운 내용을 내 깃허브 저장소에 기록(커밋)하는 것이 출석체크입니다.
+> 방법은 👉 [5_깃허브_출석체크.md](./5_깃허브_출석체크.md) 를 보세요. (첫 수업에서 계정·저장소 만들기까지 같이 합니다)
+
 ### 순서도 (Flowchart)
 
 ```mermaid
@@ -472,7 +475,7 @@ sudo systemctl set-default graphical.target
 sudo reboot
 ```
 
-- 정리한 내용을 본인 깃허브 저장소에 마크다운(md)으로 기록해보세요. (이 저장소처럼!)
+- 과정 전체를 본인 깃허브 저장소에 마크다운(md)으로 기록했는지 확인하세요 — 👉 [5_깃허브_출석체크.md](./5_깃허브_출석체크.md) (잔디밭이 곧 출석부이자 포트폴리오!)
 - 이어서 해볼 것: [arduino_sensor_for_jetson.md](../03_arduino_sensor/arduino_sensor_for_jetson.md) (아두이노 센서 연동), [python_jupyter_venv.md](../02_python_jupyter/python_jupyter_venv.md) (파이썬 가상환경)
 
 ---

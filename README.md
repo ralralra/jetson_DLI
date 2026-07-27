@@ -22,6 +22,6 @@
 
 ## 📚 각 폴더 안 문서 순서
 
-- **01_jetson_dli_course** : `0_전체 가이드` → `1_시작(이미지 굽기)` → `2_한글설치` → `3_도커와 스왑` → `4_classification 실습 노트북`
+- **01_jetson_dli_course** : `0_전체 가이드` → `1_시작(이미지 굽기)` → `2_한글설치` → `3_도커와 스왑` → `4_classification 실습 노트북` / 매 수업 공통 : `5_깃허브 출석체크`
 - **04_chatbot** : `1_function_calling` → `2_arduino_dhtSensor` → `3_dht_chatbot(노트북)` → `4_api_chatbot`
 - **05_jetbotmini** : 폴더 안 `01.Installation` 부터 번호 순서대로
