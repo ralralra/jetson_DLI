@@ -21,7 +21,6 @@ cd Python-3.8.12
 > `./configure` → `make` 순서로 진행해야 bz2·sqlite 지원이 빠지지 않는다.
 
 ```
-#./configure --enable-optimizations
 ./configure --enable-loadable-sqlite-extensions --with-bz2
 ```
 ```
@@ -29,8 +28,6 @@ pip3 install --upgrade pip
 
 sudo apt-get install libbz2-dev
 sudo apt-get install sqlite3 libsqlite3-dev
-
-python3.8 -m pip install Jetson.GPIO 
 ```
 ![](../img/bz2checking.png)
 
@@ -101,10 +98,7 @@ source myenv/bin/activate
 ![](../img/pipupgrade.jpg)
 ```
 python -m pip install --upgrade pip
-pip install jupyter gradio pandas ipykernel
-pip install openai
-pip install gradio
-
+pip install jupyter gradio pandas ipykernel openai
 ```
 ![](../img/pipinstall.png)
 
