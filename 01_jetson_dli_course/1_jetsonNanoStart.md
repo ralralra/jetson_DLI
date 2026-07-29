@@ -59,23 +59,26 @@ reboot
 ![jtop](../img/003.png)   
 
 ---
-# 3️⃣Install and run cooling fan 
+# 3️⃣Install and run cooling fan
 
-After running jtop
-Check the temperature.
-The temperature is very high.
-Install and run the cooling fan
+jtop을 실행해 온도를 확인해 보면 온도가 꽤 높습니다.
 
-**Run Terminal**
+*After running jtop, check the temperature. The temperature is very high.*
 
-## 1. jetson_clocks 명령어 사용
+쿨링팬을 장착하고 자동 제어를 설정합니다.
 
-팬을 항상 작동시키려면 아래 명령어를 입력합니다:
+## (선택) 팬이 잘 도는지 즉시 확인
+
+장착 직후 한 줄로 팬을 돌려볼 수 있습니다:
+
 ```
-sudo /usr/bin/jetson_clocks --fan
+sudo sh -c 'echo 128 > /sys/devices/pwm-fan/target_pwm'   # 끄기: 128 대신 0
 ```
 
-## 깃허브에서 설치하는 방법
+## 자동 팬 제어 설치 — 이 방법 하나면 끝!
+
+`jetson-fan-ctl`을 설치하면 **부팅할 때 자동으로 시작**되고, **온도에 따라 팬 속도를 알아서 조절**해 줍니다.
+터미널에서 한 줄씩:
 
 ```
 git clone https://github.com/jugfk/jetson-fan-ctl.git
@@ -83,85 +86,20 @@ cd jetson-fan-ctl
 sudo sh install.sh
 ```
 
-이 방법은 재부팅하면 초기화되므로, 
+설치가 끝나면 `automagic-fan` 서비스가 자동 등록되어, **재부팅해도 항상 동작**합니다.
+별도의 스크립트 작성이나 서비스 등록 작업은 필요 없습니다.
 
-## 부팅 시 fan 자동 실행 설정
-
-### 1.스크립트 생성
-
-run_jetson_fan.sh 파일을 생성하고 다음 내용을 작성합니다
-
-jetson에 기본 탑재된 vim 을 이용해 편집합니다. 
-```
-sudo vi /usr/bin/run_jetson_fan.sh
-```
-
-*화면이 열리면 ```s```를 눌러 편집모드로 들어갑니다*
-
-```f1``` 도움말
+### 동작 확인 및 제어
 
 ```
-#!/bin/bash
-sudo /usr/bin/jetson_clocks --fan
-exit 0
-```
-위 내용을 붙여넣고 
-
-: 을 입력후 wq 를 입력하면 저장되고 빠져나오게 됩니다. 
-
-
-
-### 2.권한설정
-
-```sudo chmod u+x /usr/bin/run_jetson_fan.sh```
-
-
-![](../img/fan1.png) 
-
-### 3.서비스파일 생성
-
-``` sudo vi /etc/systemd/system/run_jetson_fan.service```
-
-
-s --> 편집모드
-
-![](../img/fan2.png) 
-
-
-```
-[Unit]
-Description=Run Jetson Fan
-Requires=multi-user.target
-After=multi-user.target
-
-[Service]
-Type=forking
-Restart=on-failure
-RestartSec=1s
-ExecStart=/usr/bin/run_jetson_fan.sh
-
-[Install]
-WantedBy=multi-user.target
-```
-: wq 
-
-### 4.서비스등록 활성화
-
-```sudo systemctl enable run_jetson_fan.service```
-
--끝-
-
-
-### 5.팬 동작 확인 및 제어:
-
-```
-sudo service automagic-fan start   # 시작
-sudo service automagic-fan stop    # 중지
-sudo service automagic-fan status # 상태 확인
+sudo service automagic-fan status   # 상태 확인 (active면 성공, 종료는 q)
+sudo service automagic-fan stop     # 잠깐 중지
+sudo service automagic-fan start    # 다시 시작
 ```
 
-*상태확인후 shift+q*
+`jtop`으로 온도가 내려가는지 확인해 보세요. 약 10도 정도 떨어지는 경우도 있습니다.
 
+*Install jetson-fan-ctl once — it starts automatically at boot and adjusts fan speed by temperature.*
 
 ---
 # 4️⃣Installing the Camera
