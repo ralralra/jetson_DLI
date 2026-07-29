@@ -1,54 +1,15 @@
-# arduino & DHT11 sensing
+# arduino & DHT11 sensing — 챗봇 실습 전 준비 확인
 
+아두이노 IDE 설치·배선·DHT11 스케치 업로드의 **전체 과정은 한 곳에만** 정리되어 있습니다:
 
+👉 **[03_arduino_sensor/arduino_sensor_for_jetson.md](../03_arduino_sensor/arduino_sensor_for_jetson.md)** — 여기서 이미 마쳤다면 아래 체크리스트만 확인하고 [3_dht_chatbot_functioncalling.ipynb](./3_dht_chatbot_functioncalling.ipynb) 로 넘어가세요.
 
-시리얼 모니터를 열고있으면 주피터에서 아두이노 값을 불러올수 없다
+## ✅ 챗봇 실습 전 체크리스트
 
-아두이노에서는 DHT11 같은 온습도센서를 읽어오는 코드를 업로드 한다 
+1. **DHT11 스케치가 아두이노에 업로드**되어 있는가? (핀 2번, 통신속도 9600 — 03 문서의 코드 그대로)
+2. **시리얼 모니터는 닫았는가?** — ⚠️ 시리얼 모니터가 열려 있으면 주피터(파이썬)와 포트 충돌로 센서값을 읽을 수 없습니다!
+3. **센서 출력은 숫자만**인가? — `Serial.print(temp); Serial.print(","); Serial.println(humid);` 형태.
+   `*c` 같은 문자가 섞이면 파이썬 파싱에서 오류가 납니다.
+4. **포트 권한**은 부여했는가? — `sudo chmod a+rw /dev/ttyACM0`
 
-
-[](../img/arducode.png)
-
-```C
-#include <SimpleDHT.h>
-int pinDHT11 = 2;
-SimpleDHT11 dht11(pinDHT11);
-
-void setup() {
-  Serial.begin(9600);
-}
-
-void loop() {
-  byte temperature = 0;
-  byte humidity = 0;
-  
-  if (dht11.read(&temperature, &humidity, NULL) == SimpleDHTErrSuccess) {
-    int temp = (int)temperature;
-    int humid = (int)humidity;
-    
-    // 유효한 범위인지 확인
-    if (temp >= 0 && temp <= 50 && humid >= 0 && humid <= 100) {
-      Serial.print(temp);
-      Serial.print(",");
-      Serial.println(humid);
-    }
-  }
-  
-  delay(2000);  // 2초 대기
-}
-```
-
-아두이노에서 감지한 온습도 센싱값을 
-sensor - arduino - jetson - python 을 거치면서 우리에게 전달 된다.
-
-센서값을 불러올때는 숫자만 출력해야 한다 
-```
-Serial.print(temp);
-Serial.print("*c ,");
-Serial.println(humid);
-```
-에서 *c 같은 숫자가 아닌 데이터를 출력하면 오류가 난다
-
-
-[](../img/serial.png)
-port 
+체크가 다 되었으면 센서값이 `sensor → arduino → jetson → python` 경로로 챗봇까지 전달될 준비 완료입니다.
