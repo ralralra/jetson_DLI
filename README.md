@@ -14,6 +14,7 @@
 | 5️⃣ | [05_jetbotmini](./05_jetbotmini) | 젯봇미니 조립·설치·AI·ROS 과정 (Yahboom Jetbot Mini). 👉 [학습 순서 가이드](./05_jetbotmini/00_학습순서_가이드.md)부터! |
 | 6️⃣ | [06_data_analysis](./06_data_analysis) | 데이터 분석 실습 — 충남지역 데이터 분석·지도 시각화 |
 | 7️⃣ | [07_attendance_system](./07_attendance_system) | 얼굴인식 자동 출석 시스템 만들기 (face_recognition + USB 카메라) |
+| 8️⃣ | [08_projects](./08_projects) | 수료 후 프로젝트 — 재활용 분류 AI, 공공 CCTV 교통량 카운터 등 |
 | 🖼️ | [img](./img) | 문서에서 공용으로 쓰는 이미지 모음 |
 
 ## 🚀 처음 오셨다면
