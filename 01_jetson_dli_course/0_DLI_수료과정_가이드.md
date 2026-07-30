@@ -157,7 +157,7 @@ ifconfig
 
 **흐름** : `apt update/upgrade` → `python3-pip 설치` → `jetson-stats 설치` → 재부팅 → `jtop` 실행
 
-👉 **실제 명령어는 [1_jetsonNanoStart.md — 2️⃣ jtop operation](./1_jetsonNanoStart.md)** 을 보면서 그대로 입력하세요.
+👉 **실제 명령어는 [1_jetsonNanoStart.md — 2️⃣ jtop 설치](./1_jetsonNanoStart.md)** 를 보면서 그대로 입력하세요.
 
 > 💡 비밀번호(`dli`)는 입력해도 화면에 안 보이는 게 정상! `Do you want to continue? [Y/n]`은 **Y**.
 
@@ -176,7 +176,7 @@ ifconfig
 sudo sh -c 'echo 128 > /sys/devices/pwm-fan/target_pwm'   # 끄기는 128 대신 0
 ```
 
-👉 **자동 팬 제어(부팅 시 자동 실행) 설치는 [1_jetsonNanoStart.md — 3️⃣ cooling fan](./1_jetsonNanoStart.md)** 을 따라 하세요.
+👉 **자동 팬 제어(부팅 시 자동 실행) 설치는 [1_jetsonNanoStart.md — 3️⃣ 쿨링팬 설치](./1_jetsonNanoStart.md)** 를 따라 하세요.
 
 ✅ **완료 확인** : `jtop`에서 온도가 내려가고, 재부팅 후에도 팬이 자동으로 돕니다.
 
@@ -225,7 +225,7 @@ ls /dev/video0 -l
 
 **무엇을?** 예제를 내려받아 카메라 영상 띄우기 → 얼굴 인식(네모 박스)까지 해봅니다.
 
-👉 **명령어는 [1_jetsonNanoStart.md — 4️⃣ Installing the Camera](./1_jetsonNanoStart.md)** 를 따라 하세요.
+👉 **명령어는 [1_jetsonNanoStart.md — 4️⃣ 카메라 연결과 테스트](./1_jetsonNanoStart.md)** 를 따라 하세요.
 
 - **USB 카메라** : git clone → `usb-camera-gst.py` → `face-detect-usb.py`
 - **CSI 카메라** : git clone → `simple_camera.py` → `face_detect.py`
