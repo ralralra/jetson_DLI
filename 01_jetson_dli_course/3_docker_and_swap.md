@@ -227,7 +227,8 @@ chmod +x docker_dli_run.sh
 |--rm|컨테이너 종료 시 자동 삭제|
 |--network host|호스트 네트워크 사용 (Jetson Nano의 네트워크를 직접 사용)|
 |--volume ~/nvdli-data:/nvdli-nano/data	|호스트의 ~/nvdli-data 폴더를 컨테이너 내 /nvdli-nano/data로 마운트|
-|--device /dev/video0|Jetson Nano의 카메라 장치를 컨테이너에서 사용할 수 있도록 설정|
+|--volume /tmp/argus_socket:/tmp/argus_socket|**CSI 카메라**용 소켓 마운트 (USB 카메라만 쓴다면 없어도 되지만 넣어둬서 두 카메라 모두 지원)|
+|--device /dev/video0|Jetson Nano의 카메라 장치(USB/CSI 공통)를 컨테이너에서 사용할 수 있도록 설정|
 |nvcr.io/nvidia/dli/dli-nano-ai:v2.0.2-r32.7.1kr|NVIDIA에서 제공하는 AI 실습 컨테이너 이미지|
 
 ![](../img/doker.png)

@@ -103,6 +103,10 @@ sudo service automagic-fan start    # 다시 시작
 
 ---
 # 4️⃣Installing the Camera
+
+USB 카메라와 CSI 카메라 중 **가지고 있는 카메라에 맞는 방법 하나만** 따라 하면 됩니다.
+
+## 4-A. USB 카메라 (일반 웹캠)
 [Sources](https://github.com/jetsonhacks/USB-Camera)
 ```
 git clone https://github.com/jetsonhacks/USB-Camera.git
@@ -124,6 +128,39 @@ cd USB-Camera
 python3 usb-camera-gst.py 
 python3 face-detect-usb.py 
 ```
+
+## 4-B. CSI 카메라 (라즈베리파이 카메라 모듈 v2 등)
+[Sources](https://github.com/JetsonHacksNano/CSI-Camera)
+
+**연결 (⚠️ 전원을 끈 상태에서!)**
+
+1. CSI 커넥터의 검은색 걸쇠를 위로 살짝 들어 올린다.
+2. 리본 케이블을 **금속 접점이 방열판(히트싱크) 쪽**을 향하게 끼운다. (파란 면이 바깥쪽)
+3. 걸쇠를 다시 눌러 고정하고 전원을 켠다.
+
+**인식 확인**
+
+```
+ls /dev/video0
+```
+
+**예제 실행**
+
+```
+git clone https://github.com/JetsonHacksNano/CSI-Camera.git
+```
+
+카메라 테스트 와 얼굴 인식을 각각 실행해본다
+```
+cd CSI-Camera
+python3 simple_camera.py
+python3 face_detect.py
+```
+
+창을 닫을 때는 창을 클릭한 후 `Ctrl+C` 또는 `q`
+
+> 💡 CSI 카메라는 DLI 도커 컨테이너 안에서도 그대로 사용할 수 있습니다.
+> JupyterLab 실습에서 `usb_camera.ipynb` 대신 `csi_camera.ipynb` 를 열면 됩니다.
 
 
 [🙋‍♂️ next hangul install](./2_한글설치.md)
