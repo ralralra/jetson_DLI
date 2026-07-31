@@ -135,33 +135,67 @@ ZRAM을 비활성화하고, 스왑(Swap) 파일을 추가하는 작업을 수행
 sudo systemctl disable nvzramconfig
 ```
 
- **스왑 파일 생성**
+## 스왑을 새로 만들고 싶다면
+
+**① 스왑 파일 생성**
 ```
 sudo fallocate -l 8G /mnt/8GB.swap
 sudo chmod 600 /mnt/8GB.swap
 sudo mkswap /mnt/8GB.swap
 ```
 
-**부팅 시 자동 적용을 위해 /etc/fstab에 추가**
+**② 부팅 시 자동 적용 — /etc/fstab에 등록**
+
+한 번 등록해 두면 재부팅할 때마다 스왑이 자동으로 켜진다:
+
 ```
 echo "/mnt/8GB.swap swap swap defaults 0 0" | sudo tee -a /etc/fstab
 ```
 
-**스왑 파일 적용 (재부팅 없이 적용 가능)**
+**③ 바로 적용 (재부팅 없이)**
 
 ```sudo swapon /mnt/8GB.swap```
 
-**스왑이 정상적으로 적용되었는지 확인**
+**④ 정상 적용 확인**
 ```
-free -h
-swapon --show
+free -h          # Swap 항목에 8.0G가 보이면 성공
+swapon --show    # /mnt/8GB.swap 하나만 떠야 정상
 ```
 
-**시스템 재부팅**
+**⑤ 시스템 재부팅**
 ```sudo reboot```
 
-
 ✅ 재부팅까지 끝났으면 스왑 준비 완료! 이제 아래 3️⃣에서 도커를 실행한다.
+
+## 스왑을 삭제하고 싶다면 (크기를 바꿀 때)
+
+예전에 18GB 등 다른 크기로 만들었던 스왑을 지우고 8GB로 다시 만들고 싶을 때.
+아래는 18GB 스왑을 지우는 예시 — 파일명만 실제 만든 이름으로 바꾸면 된다.
+
+**① 스왑 끄기**
+```
+swapon --show                  # 현재 스왑 파일 이름 확인
+sudo swapoff /mnt/18GB.swap    # 끄는 데 몇 초 걸릴 수 있음
+```
+
+> ⚠️ `swapoff`가 "Cannot allocate memory" 오류로 실패하면, 스왑 내용을 램으로 되돌릴 공간이
+> 없다는 뜻. 실행 중인 프로그램(도커 컨테이너 등)을 종료하고 재시도하거나,
+> `sudo reboot` 후(부팅 직후엔 스왑 사용량이 거의 0) 다시 하면 된다.
+
+**② 부팅 시 자동 적용 해제 — /etc/fstab에서 등록 삭제**
+```
+sudo sed -i '/18GB.swap/d' /etc/fstab
+```
+
+(`sed`가 낯설면 `sudo nano /etc/fstab`으로 열어 `18GB.swap`이 들어간 줄을 직접 지우고 저장해도 된다)
+
+**③ 스왑 파일 삭제 — 디스크 공간이 바로 확보된다**
+```
+sudo rm /mnt/18GB.swap
+df -h /          # SD 카드 여유 공간이 늘어났는지 확인
+```
+
+삭제가 끝났으면 위의 **"스왑을 새로 만들고 싶다면"** 절차대로 8GB 스왑을 만들면 된다.
 
 ---
 
