@@ -46,7 +46,7 @@ flowchart TD
     F -- "아니오 (건너뛰기 OK)" --> H
     G --> H["6️⃣ 카메라(USB/CSI) 동작 확인<br/>ls /dev/video0 → 예제 실행"]
     H --> I["7️⃣ NVIDIA 계정 만들기<br/>+ DLI 코스 무료 등록"]
-    I --> J["8️⃣ ⭐ 스왑 설정 (2GB 필수!)<br/>zram off → headless → 18GB 스왑<br/>※ 반드시 도커보다 먼저!"]
+    I --> J["8️⃣ ⭐ 스왑 설정 (2GB 필수!)<br/>zram off → headless → 8GB 스왑<br/>※ 반드시 도커보다 먼저!"]
     J --> K["9️⃣ DLI 도커 컨테이너 실행<br/>docker_dli_run.sh → IP:8888 접속<br/>비밀번호 dlinano"]
     K --> L["🔟 실습 ①<br/>hello_camera"]
     L --> M["🔟 실습 ②<br/>classification (Thumbs 👍👎)"]
@@ -286,14 +286,14 @@ nvgstcapture-1.0 --mode=2
 **흐름 (5개 작업)** :
 1. 기존 zram 스왑 끄기 (`nvzramconfig` 비활성화)
 2. 부팅 시 GUI를 끄고 headless(터미널만) 모드로 — 램 절약!
-3. 스왑 파일 만들기 (64GB 카드면 18~20GB 권장)
+3. 스왑 파일 만들기 (8GB 권장 — 실습 컨테이너의 스왑 사용량이 4GB로 제한되어 있어 이보다 크게 잡아도 쓰이지 않습니다)
 4. 부팅 시 자동으로 스왑이 켜지게 등록 (fstab)
 5. 재부팅
 
 👉 **실제 명령어는 [3_docker_and_swap.md — 2️⃣ swap 설정](./3_docker_and_swap.md)** 을 보면서 그대로 입력하세요.
 
 ✅ **완료 확인** : 재부팅하면 **검은 화면에 글자만** 나옵니다 — 고장이 아니라 headless 모드! 😄
-`dli`/`dli`로 로그인 후 `free -h` 를 쳐서 Swap 항목에 18G가 보이면 성공.
+`dli`/`dli`로 로그인 후 `free -h` 를 쳐서 Swap 항목에 8G가 보이면 성공.
 
 > 💡 나중에 GUI 화면으로 돌아오고 싶으면: `sudo systemctl set-default graphical.target` 후 `reboot` (13단계 참고)
 

@@ -100,11 +100,14 @@ Jetson 보드에서 Docker 컨테이너를 실행할 때 발생하는 메모리 
 **특히 2GB 모델은 스왑 없이 도커 실습을 하면 반드시 멈추므로, 도커(3️⃣)보다 먼저 해야 한다.**
 
 > 💡 **2GB vs 4GB** :
-> - **2GB 모델** — 스왑이 **필수**. 없으면 모델 훈련 중 반드시 멈춘다. 아래 절차 전부 진행 (18~20GB 권장).
+> - **2GB 모델** — 스왑이 **필수**. 없으면 모델 훈련 중 반드시 멈춘다. 아래 절차 전부 진행.
 > - **4GB 모델** — 스왑이 **권장**. 기초 실습은 스왑 없이도 돌지만, 모델 훈련이나 CSI 카메라 사용 시
->   멈춤 방지를 위해 만들어 두는 것이 좋다. 절차는 동일하고 크기만 줄여도 된다 (예: `fallocate -l 8G /mnt/8GB.swap`,
->   이후 명령의 파일명도 `8GB.swap`으로 통일). GUI를 계속 쓰고 싶다면 `set-default multi-user.target`(headless 전환)
->   단계는 건너뛰어도 된다.
+>   멈춤 방지를 위해 만들어 두는 것이 좋다. 절차는 동일. GUI를 계속 쓰고 싶다면
+>   `set-default multi-user.target`(headless 전환) 단계는 건너뛰어도 된다.
+>
+> 💡 **크기는 8GB면 충분** — 실습 컨테이너는 `--memory-swap=4G` 옵션으로 스왑 사용량이 제한되므로
+> 그보다 큰 스왑은 어차피 쓰이지 않는다. 특히 32GB SD 카드에서 스왑을 크게 잡으면
+> 카드가 꽉 차서 도커 이미지 설치가 느려지거나 실패할 수 있으니 주의.
 
 Jetson 보드는 메모리가 제한적이므로, Docker 컨테이너를 원활하게 실행하기 위해 
 ZRAM을 비활성화하면 CPU 사용량을 줄이고, Docker 컨테이너가 더 많은 메모리를 사용할 수 있다
@@ -118,7 +121,7 @@ ZRAM을 비활성화하고, 스왑(Swap) 파일을 추가하는 작업을 수행
 | 과정 | 이유 |
 | --- | --- |
 | ZRAM 비활성화 ```systemctl disable nvzramconfig```| CPU 사용량을 줄이고, 스왑을 직접 사용할 수 있도록 함 | 
-| 스왑 파일 생성 ```fallocate -l 18G /mnt/18GB.swap``` | 메모리가 부족할 경우 추가적인 가상 메모리를 제공| 
+| 스왑 파일 생성 ```fallocate -l 8G /mnt/8GB.swap``` | 메모리가 부족할 경우 추가적인 가상 메모리를 제공| 
 | GUI 비활성화 ```systemctl set-default multi-user.target```| Docker 컨테이너 실행 시 GUI가 필요 없다면 RAM 사용량을 줄이기 위해 비활성화 |
 | GUI 활성화| ```sudo systemctl set-default graphical.target```|
 
@@ -134,19 +137,19 @@ sudo systemctl disable nvzramconfig
 
  **스왑 파일 생성**
 ```
-sudo fallocate -l 18G /mnt/18GB.swap
-sudo chmod 600 /mnt/18GB.swap
-sudo mkswap /mnt/18GB.swap
+sudo fallocate -l 8G /mnt/8GB.swap
+sudo chmod 600 /mnt/8GB.swap
+sudo mkswap /mnt/8GB.swap
 ```
 
 **부팅 시 자동 적용을 위해 /etc/fstab에 추가**
 ```
-echo "/mnt/18GB.swap swap swap defaults 0 0" | sudo tee -a /etc/fstab
+echo "/mnt/8GB.swap swap swap defaults 0 0" | sudo tee -a /etc/fstab
 ```
 
 **스왑 파일 적용 (재부팅 없이 적용 가능)**
 
-```sudo swapon /mnt/18GB.swap```
+```sudo swapon /mnt/8GB.swap```
 
 **스왑이 정상적으로 적용되었는지 확인**
 ```
