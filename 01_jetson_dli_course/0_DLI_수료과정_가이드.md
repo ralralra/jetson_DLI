@@ -150,6 +150,19 @@ ifconfig
 -  power shell 을 열고 `ssh jetsonID@192.168.***.***` --> yes --> 비밀번호입력
 -  젯슨나노의 터미널 화면이 연결됩니다
 
+### 2-3. ⚠️ 와이파이 절전 모드 끄기 (끊김 예방 — 헤드리스/주피터 쓰기 전에 미리!)
+
+헤드리스 접속(SSH)이나 JupyterLab 사용 중 와이파이가 자꾸 끊기는 건 와이파이 카드의 **절전(powersave) 모드** 때문입니다.
+아래 두 줄을 **한 번만** 실행해 두면 재부팅해도 계속 유지됩니다:
+
+```bash
+printf '[connection]\nwifi.powersave = 2\n' | sudo tee /etc/NetworkManager/conf.d/wifi-powersave-off.conf
+sudo systemctl restart NetworkManager
+```
+
+- `wifi.powersave = 2` = 절전 끄기 (3이 켜기)
+- 확인: `iw dev wlan0 get power_save` → `Power save: off` 나오면 성공
+
 ---
 
 ## 3단계. 시스템 업데이트 + jtop 설치
@@ -314,6 +327,8 @@ root@dli-desktop:/nvdli-nano#
 
 ### 9-4. JupyterLab 접속
 
+> ⚠️ 접속 전에 **와이파이 절전 모드 껐는지 확인**(2-3 참고) — 안 꺼두면 실습 중 접속이 자꾸 끊깁니다.
+
 **같은 와이파이에 있는 컴퓨터(노트북)** 웹브라우저 주소창에:
 
 ```
@@ -436,6 +451,7 @@ sudo reboot
 | 브라우저에서 JupyterLab 접속 불가 | 다른 브라우저 시도 / 젯슨나노와 같은 와이파이인지 확인 / IP 주소 다시 확인(`ifconfig`) |
 | USB 직결 시 나노 인식 불가 | USB 케이블이 **데이터 전송용**인지 확인 (충전 전용 케이블 X) |
 | 도커 다운로드가 중간에 멈춤 | 와이파이 안정성 확인 후 `./docker_dli_run.sh` 재실행 |
+| 주피터/SSH 사용 중 와이파이 자꾸 끊김 | 와이파이 절전 모드 끄기 (2-3 참고) |
 | 훈련 중 멈춤 / 카메라 프리즈 | 스왑 설정(8단계) 확인, headless 모드인지 확인, 컨테이너 재시작 |
 | 카메라 인식 안 됨 | `ls /dev/video0 -l` 확인, USB 카메라 재연결 후 컨테이너 재시작 |
 | SSH RSA 키 충돌 | `ssh-keygen -R 192.168.55.1` 후 재접속 |
