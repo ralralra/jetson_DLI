@@ -118,7 +118,7 @@ ZRAM을 비활성화하고, 스왑(Swap) 파일을 추가하는 작업을 수행
 | 과정 | 이유 |
 | --- | --- |
 | ZRAM 비활성화 ```systemctl disable nvzramconfig```| CPU 사용량을 줄이고, 스왑을 직접 사용할 수 있도록 함 | 
-| 스왑 파일 생성 ```fallocate -l 18G /mnt/18GB.swap``` | 메모리가 부족할 경우 추가적인 가상 메모리를 제공| 
+| 스왑 파일 생성 ```fallocate -l 8G /mnt/8GB.swap``` | 메모리가 부족할 경우 추가적인 가상 메모리를 제공| 
 | GUI 비활성화 ```systemctl set-default multi-user.target```| Docker 컨테이너 실행 시 GUI가 필요 없다면 RAM 사용량을 줄이기 위해 비활성화 |
 | GUI 활성화| ```sudo systemctl set-default graphical.target```|
 
@@ -134,14 +134,14 @@ sudo systemctl disable nvzramconfig
 
  **스왑 파일 생성**
 ```
-sudo fallocate -l 18G /mnt/18GB.swap
-sudo chmod 600 /mnt/18GB.swap
-sudo mkswap /mnt/18GB.swap
+sudo fallocate -l 8G /mnt/8GB.swap
+sudo chmod 600 /mnt/8GB.swap
+sudo mkswap /mnt/8GB.swap
 ```
 
 **부팅 시 자동 적용을 위해 /etc/fstab에 추가**
 ```
-echo "/mnt/18GB.swap swap swap defaults 0 0" | sudo tee -a /etc/fstab
+echo "/mnt/8GB.swap swap swap defaults 0 0" | sudo tee -a /etc/fstab
 ```
 
 **스왑 파일 적용 (재부팅 없이 적용 가능)**
