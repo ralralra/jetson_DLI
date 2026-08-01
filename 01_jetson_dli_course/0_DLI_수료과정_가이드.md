@@ -44,9 +44,9 @@ flowchart TD
     E --> F{"한글 입력<br/>필요한가?"}
     F -- 예 --> G["5️⃣ 한글 설치<br/>fcitx-hangul"]
     F -- "아니오 (건너뛰기 OK)" --> H
-    G --> H["6️⃣ USB 카메라 동작 확인<br/>ls /dev/video0 → 예제 실행"]
+    G --> H["6️⃣ 카메라(USB/CSI) 동작 확인<br/>ls /dev/video0 → 예제 실행"]
     H --> I["7️⃣ NVIDIA 계정 만들기<br/>+ DLI 코스 무료 등록"]
-    I --> J["8️⃣ ⭐ 스왑 설정 (2GB 필수!)<br/>zram off → headless → 18GB 스왑<br/>※ 반드시 도커보다 먼저!"]
+    I --> J["8️⃣ ⭐ 스왑 설정 (2GB 필수!)<br/>zram off → headless → 8GB 스왑<br/>※ 반드시 도커보다 먼저!"]
     J --> K["9️⃣ DLI 도커 컨테이너 실행<br/>docker_dli_run.sh → IP:8888 접속<br/>비밀번호 dlinano"]
     K --> L["🔟 실습 ①<br/>hello_camera"]
     L --> M["🔟 실습 ②<br/>classification (Thumbs 👍👎)"]
@@ -172,7 +172,7 @@ sudo systemctl restart NetworkManager
 
 **흐름** : `apt update/upgrade` → `python3-pip 설치` → `jetson-stats 설치` → 재부팅 → `jtop` 실행
 
-👉 **실제 명령어는 [1_jetsonNanoStart.md — 2️⃣ jtop operation](./1_jetsonNanoStart.md)** 을 보면서 그대로 입력하세요.
+👉 **실제 명령어는 [1_jetsonNanoStart.md — 2️⃣ jtop 설치](./1_jetsonNanoStart.md)** 를 보면서 그대로 입력하세요.
 
 > 💡 비밀번호(`dli`)는 입력해도 화면에 안 보이는 게 정상! `Do you want to continue? [Y/n]`은 **Y**.
 
@@ -191,7 +191,7 @@ sudo systemctl restart NetworkManager
 sudo sh -c 'echo 128 > /sys/devices/pwm-fan/target_pwm'   # 끄기는 128 대신 0
 ```
 
-👉 **자동 팬 제어(부팅 시 자동 실행) 설치는 [1_jetsonNanoStart.md — 3️⃣ cooling fan](./1_jetsonNanoStart.md)** 을 따라 하세요.
+👉 **자동 팬 제어(부팅 시 자동 실행) 설치는 [1_jetsonNanoStart.md — 3️⃣ 쿨링팬 설치](./1_jetsonNanoStart.md)** 를 따라 하세요.
 
 ✅ **완료 확인** : `jtop`에서 온도가 내려가고, 재부팅 후에도 팬이 자동으로 돕니다.
 
@@ -211,26 +211,46 @@ sudo sh -c 'echo 128 > /sys/devices/pwm-fan/target_pwm'   # 끄기는 128 대신
 
 ## 6단계. 카메라 동작 확인
 
-USB 카메라를 젯슨나노 USB 포트에 연결하세요. (DLI 과정 내내 사용합니다)
+카메라는 아래 두 종류 중 **어느 것이든** 사용할 수 있습니다. (DLI 과정 내내 사용합니다)
 
-### 6-1. 카메라 인식 확인
+| 종류 | 연결 위치 | 예시 |
+|------|----------|------|
+| **USB 카메라** | USB 포트에 꽂기만 하면 끝 | 일반 웹캠 (로지텍 C270 등) |
+| **CSI 카메라** | 보드의 CSI 커넥터 (리본 케이블) | 라즈베리파이 카메라 모듈 v2 (IMX219) |
+
+### 6-0. (CSI 카메라만) 리본 케이블 연결하기
+
+⚠️ **반드시 전원을 끈 상태에서 연결하세요!**
+
+1. CSI 커넥터(HDMI 포트 옆의 가늘고 긴 소켓)의 검은색 걸쇠를 **위로 살짝 들어** 올립니다.
+2. 리본 케이블을 **금속 접점이 방열판(히트싱크) 쪽을 향하게** 끼웁니다. (파란 면이 바깥쪽)
+3. 걸쇠를 다시 **꾹 눌러 고정**하고, 케이블이 비뚤게 물리지 않았는지 확인한 뒤 전원을 켭니다.
+4. 케이블을 뺄 때도 걸쇠를 먼저 올리고 빼세요. **절대 억지로 당기지 않기.**
+
+### 6-1. 카메라 인식 확인 (USB/CSI 공통)
 
 ```bash
 ls /dev/video0 -l
 ```
 
 `crw-rw----+ 1 root video 81, 0 ... /dev/video0` 처럼 나오면 인식 성공!
+(CSI 카메라인데 안 나오면 → 전원 끄고 리본 케이블 방향/고정 상태를 다시 확인)
 
 ### 6-2. 카메라 영상 띄워보기
 
-**무엇을?** USB-Camera 예제를 내려받아 카메라 영상 띄우기 → 얼굴 인식(네모 박스)까지 해봅니다.
+**무엇을?** 예제를 내려받아 카메라 영상 띄우기 → 얼굴 인식(네모 박스)까지 해봅니다.
 
-👉 **명령어는 [1_jetsonNanoStart.md — 4️⃣ Installing the Camera](./1_jetsonNanoStart.md)** 를 따라 하세요.
-(git clone → `usb-camera-gst.py` → `face-detect-usb.py`, 창 닫기는 창 클릭 후 `Ctrl+C` 또는 q)
+👉 **명령어는 [1_jetsonNanoStart.md — 4️⃣ 카메라 연결과 테스트](./1_jetsonNanoStart.md)** 를 따라 하세요.
+
+- **USB 카메라** : git clone → `usb-camera-gst.py` → `face-detect-usb.py`
+- **CSI 카메라** : git clone → `simple_camera.py` → `face_detect.py`
+- 창 닫기는 창 클릭 후 `Ctrl+C` 또는 q
 
 ✅ **완료 확인** : 내 얼굴 주위에 네모 박스가 그려지면 성공!
 
 ### 6-3. 사진과 영상 찍어보기
+
+**USB 카메라:**
 
 ```bash
 # 사진 찍기 : 화면이 뜨면 마우스로 창 클릭 후 j 를 누르면 캡처, q 로 종료
@@ -238,6 +258,16 @@ nvgstcapture-1.0 --mode=1 --camsrc=0 --cap-dev-node=0
 
 # 영상 녹화 : 1 = 녹화 시작, 0 = 정지, q = 종료
 nvgstcapture-1.0 --mode=2 --camsrc=0 --cap-dev-node=0
+```
+
+**CSI 카메라:** (`--camsrc=1`이 CSI, 기본값이라 생략해도 됩니다)
+
+```bash
+# 사진 찍기 : j 캡처, q 종료
+nvgstcapture-1.0 --mode=1
+
+# 영상 녹화 : 1 = 녹화 시작, 0 = 정지, q = 종료
+nvgstcapture-1.0 --mode=2
 ```
 
 홈 폴더에 저장된 사진/영상 파일을 Files 탐색기로 확인해보세요.
@@ -271,14 +301,14 @@ nvgstcapture-1.0 --mode=2 --camsrc=0 --cap-dev-node=0
 **흐름 (5개 작업)** :
 1. 기존 zram 스왑 끄기 (`nvzramconfig` 비활성화)
 2. 부팅 시 GUI를 끄고 headless(터미널만) 모드로 — 램 절약!
-3. 스왑 파일 만들기 (64GB 카드면 18~20GB 권장)
+3. 스왑 파일 만들기 (8GB 권장 — 실습 컨테이너의 스왑 사용량이 4GB로 제한되어 있어 이보다 크게 잡아도 쓰이지 않습니다)
 4. 부팅 시 자동으로 스왑이 켜지게 등록 (fstab)
 5. 재부팅
 
 👉 **실제 명령어는 [3_docker_and_swap.md — 2️⃣ swap 설정](./3_docker_and_swap.md)** 을 보면서 그대로 입력하세요.
 
 ✅ **완료 확인** : 재부팅하면 **검은 화면에 글자만** 나옵니다 — 고장이 아니라 headless 모드! 😄
-`dli`/`dli`로 로그인 후 `free -h` 를 쳐서 Swap 항목에 18G가 보이면 성공.
+`dli`/`dli`로 로그인 후 `free -h` 를 쳐서 Swap 항목에 8G가 보이면 성공.
 
 > 💡 나중에 GUI 화면으로 돌아오고 싶으면: `sudo systemctl set-default graphical.target` 후 `reboot` (13단계 참고)
 
@@ -353,7 +383,9 @@ DLI 코스 사이트(7단계에서 등록한 과정)의 영상과 설명을 같�
 
 ### 10-1. `hello_camera` — 카메라 확인
 
-- `hello_camera/usb_camera.ipynb` 를 더블클릭해 열고 셀을 **위에서부터 순서대로** ▶ 실행.
+- 사용하는 카메라에 맞는 노트북을 더블클릭해 열고 셀을 **위에서부터 순서대로** ▶ 실행.
+  - **USB 카메라** → `hello_camera/usb_camera.ipynb`
+  - **CSI 카메라** → `hello_camera/csi_camera.ipynb`
 - 카메라 영상이 노트북 안에 나타나면 성공.
 - ⚠️ 다 끝나면 꼭 메뉴에서 **Kernel → Shut Down Kernel** (메모리 확보를 위해!)
 
@@ -453,7 +485,8 @@ sudo reboot
 | 도커 다운로드가 중간에 멈춤 | 와이파이 안정성 확인 후 `./docker_dli_run.sh` 재실행 |
 | 주피터/SSH 사용 중 와이파이 자꾸 끊김 | 와이파이 절전 모드 끄기 (2-3 참고) |
 | 훈련 중 멈춤 / 카메라 프리즈 | 스왑 설정(8단계) 확인, headless 모드인지 확인, 컨테이너 재시작 |
-| 카메라 인식 안 됨 | `ls /dev/video0 -l` 확인, USB 카메라 재연결 후 컨테이너 재시작 |
+| 카메라 인식 안 됨 (USB) | `ls /dev/video0 -l` 확인, USB 카메라 재연결 후 컨테이너 재시작 |
+| 카메라 인식 안 됨 (CSI) | 전원 끄고 리본 케이블 방향(금속 접점이 방열판 쪽) · 걸쇠 고정 확인 후 재부팅 |
 | SSH RSA 키 충돌 | `ssh-keygen -R 192.168.55.1` 후 재접속 |
 
 ---
