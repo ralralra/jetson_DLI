@@ -111,10 +111,22 @@ source myenv/bin/activate
 
 ![](../img/pipupgrade.jpg)
 
+**① pip를 먼저 최신으로!** — 설치 직후의 pip(21.x)는 너무 낡아서 최신 패키지 설치에 실패합니다:
+
 ```bash
-python -m pip install --upgrade pip
-pip install jupyter gradio pandas ipykernel openai pyserial
+python -m pip install --upgrade pip setuptools wheel
+pip --version    # 24.x 이상이 나와야 함
 ```
+
+**② 패키지 설치** — gradio는 아래처럼 **버전을 고정**해서 설치합니다:
+
+```bash
+pip install jupyter pandas ipykernel openai pyserial "gradio==3.50.2" "huggingface-hub==0.24.7"
+```
+
+> 💡 **왜 버전을 고정하나요?** 최신 gradio는 젯슨(ARM + 파이썬 3.8)에서 부속 패키지(`hf-xet` 등)의
+> 소스 컴파일을 시도하다가 `subprocess-exited-with-error`로 실패합니다.
+> `gradio==3.50.2` + `huggingface-hub==0.24.7` 조합은 컴파일 없이 바로 설치됩니다.
 
 ![](../img/pipinstall.png)
 
@@ -149,7 +161,9 @@ Running on local URL 을 실행하면 새로운 창에 챗봇이 나옵니다.
 |---|---|---|
 | jupyter 실행 시 `No module named '_sqlite3'` | sqlite 라이브러리 없이 컴파일됨 | `sudo apt install libsqlite3-dev` → Python-3.8.12 폴더에서 `./configure --enable-loadable-sqlite-extensions --with-bz2` → `make -j4` → `sudo make altinstall` → venv 삭제 후 재생성 |
 | pandas import 시 `No module named '_bz2'` | bz2 라이브러리 없이 컴파일됨 | `sudo apt install libbz2-dev` → 위와 동일하게 재컴파일 (**반드시 altinstall!**) |
-| 노트북에서 `No module named 'serial'` | 주피터가 가상환경 커널을 안 씀 | `pip install pyserial ipykernel` → `python -m ipykernel install --user --name=myenv` → 주피터에서 Kernel → Change kernel → `Python (myenv)` 선택 |
+| 노트북에서 `No module named 'serial'` (또는 gradio 등) | 주피터가 가상환경 커널을 안 씀 | 노트북에서 `import sys; print(sys.executable)` 실행 → `~/myenv/...`가 아니면 Kernel → Change kernel → `Python (myenv)` 선택. 커널이 맞는데도 없으면 `!{sys.executable} -m pip install 패키지명`으로 설치 후 Kernel → Restart |
+| gradio 설치 중 `subprocess-exited-with-error`, `No matching distribution found for puccinialin` | 최신 gradio의 부속 패키지(`hf-xet`)가 젯슨용 빌드가 없어 소스 컴파일 시도 → 실패 | ① `python -m pip install --upgrade pip setuptools wheel` ② `pip install "gradio==3.50.2" "huggingface-hub==0.24.7"` (버전 고정으로 컴파일 회피) |
+| pip 다운로드 중 `Read timed out` 반복 | 와이파이 절전 모드가 다운로드 중 연결을 끊음 | [0번 가이드 2-3절의 와이파이 절전 끄기](../01_jetson_dli_course/0_DLI_수료과정_가이드.md) 적용 후 `pip install --default-timeout=60 --retries 10 패키지명` 으로 재시도. 중간에 끊겼어도 다시 실행하면 받은 부분은 캐시에서 재활용됨 |
 | pip install이 느리거나 멈춤 | 스왑 부족 또는 네트워크 | [스왑 설정](../01_jetson_dli_course/3_docker_and_swap.md) 확인, 와이파이 재연결 |
 
 [🙋‍♂️ 다음 단계: 아두이노 + DHT11 센서 연결](../03_arduino_sensor/arduino_sensor_for_jetson.md)
