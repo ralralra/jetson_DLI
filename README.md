@@ -15,6 +15,7 @@
 | 6️⃣ | [06_data_analysis](./06_data_analysis) | 데이터 분석 실습 — 충남지역 데이터 분석·지도 시각화 |
 | 7️⃣ | [07_attendance_system](./07_attendance_system) | 얼굴인식 자동 출석 시스템 만들기 (face_recognition + USB 카메라) |
 | 8️⃣ | [08_projects](./08_projects) | 수료 후 프로젝트 — 재활용 분류 AI, 공공 CCTV 교통량 카운터 등 |
+| 9️⃣ | [09_so_arm101](./09_so_arm101) | **SO-ARM101 로봇팔 + LeRobot (윈도우)** — 설치·캘리브레이션·원격조작·데이터 수집·AI 학습·평가. 👉 [README](./09_so_arm101/README.md)부터! |
 | 🖼️ | [img](./img) | 문서에서 공용으로 쓰는 이미지 모음 |
 
 ## 🚀 처음 오셨다면
