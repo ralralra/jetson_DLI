@@ -54,8 +54,8 @@ lerobot-find-port
 
 | 팔 | 내 포트 번호 |
 |---|---|
-| 팔로워암 (Follower) | COM____ |
-| 리더암 (Leader) | COM____ |
+| 팔로워암 (Follower) | COM_9_ |
+| 리더암 (Leader) | COM_10_ |
 
 > ⚠️ **Enter를 누르기 전에 반드시 USB를 뽑아야 한다.** 안 뽑고 Enter를 누르면 `Could not detect the port. No difference was found` 오류가 난다. 다시 실행하면 된다.
 > 💡 윈도우는 보통 **같은 장치를 같은 USB 구멍에 꽂으면 같은 번호**를 준다. 다른 구멍에 꽂으면 번호가 바뀔 수 있으니, USB 구멍에 스티커로 "리더", "팔로워"라고 붙여 두자.
